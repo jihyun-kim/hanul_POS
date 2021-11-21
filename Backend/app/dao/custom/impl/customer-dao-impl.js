@@ -63,7 +63,7 @@ var CustomerDAOImpl = /** @class */ (function () {
         var _this = this;
         console.log(entity);
         return new Promise(function (resolve, reject) {
-            _this.connection.query("INSERT INTO Customer VALUES ('" + entity.id + "','" + entity.name + "','" + entity.chName + "','" + entity.gender + "','" + entity.birthDate + "','" + entity.address + "','" + entity.telNo + "','" + entity.etc + "')", function (err, results) {
+            _this.connection.query("INSERT INTO Customer VALUES ('" + entity.id + "','" + entity.name + "','" + entity.chName + "','" + entity.gender + "','" + entity.birthDate + "','" + entity.address + "','" + entity.addGubun + "','" + entity.telNo + "','" + entity.etc + "')", function (err, results) {
                 if (err) {
                     reject(err);
                 }
@@ -76,7 +76,7 @@ var CustomerDAOImpl = /** @class */ (function () {
     CustomerDAOImpl.prototype.update = function (entity) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.connection.query("UPDATE Customer SET name = '" + entity.name + "', chName ='" + entity.chName + "', gender ='" + entity.gender + "', birthDate ='" + entity.birthDate + "', address ='" + entity.address + "', telNo ='" + entity.telNo + "', etc ='" + entity.etc + "' WHERE id='" + entity.id + "'", function (err, results) {
+            _this.connection.query("UPDATE Customer SET name = '" + entity.name + "', chName ='" + entity.chName + "', gender ='" + entity.gender + "', birthDate ='" + entity.birthDate + "', address ='" + entity.address +  "', addGubun ='" + entity.addGubun + "', telNo ='" + entity.telNo + "', etc ='" + entity.etc + "' WHERE id='" + entity.id + "'", function (err, results) {
                 if (err) {
                     reject(err);
                 }

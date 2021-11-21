@@ -103,7 +103,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Manage Customers
+                회원 관리
                 <small>Add, Update, Delete and Search Customers</small>
             </h1>
             <ol class="breadcrumb">
@@ -122,31 +122,60 @@
 
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Customer Information</h3>
+                            <h3 class="box-title">회원 정보</h3>
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
                         <form role="form">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label>Customer ID</label>
+                                    <label>회원번호</label>
                                     <input name="id" type="text" class="form-control" id="txtCustomerId"
-                                           placeholder="Enter Customer ID">
+                                           placeholder="회원번호를 등록하여 주세요">
                                 </div>
                                 <div class="form-group">
-                                    <label>Customer Name</label>
+                                    <label>성명</label>
                                     <input name="name" type="text" class="form-control" id="txtCustomerName"
-                                           placeholder="Enter Customer Name">
+                                           placeholder="성명을 등록하여 주세요">
                                 </div>
                                 <div class="form-group">
-                                    <label>Customer Address</label>
+                                    <label>세례명</label>
+                                    <input name="chName" type="text" class="form-control" id="txtCustomerChName"
+                                           placeholder="세례명을 등록하여 주세요">
+                                </div>
+                                <div class="form-group">
+                                    <label>성별</label>
+                                    <select name="gender" id="txtCustomerGender">
+                                      <option value="F">여성</option>
+                                      <option value="M">남성</option>
+                                    </select>
+                                    <label>생년월일</label>
+                                    <input name="birthDate" type="text" id="txtCustomerBirthDate"
+                                    maxlength="6" size="6" placeholder="생년월일 등록하여 주세요">
+                                </div>
+                                <div class="form-group">
+                                    <label>주소</label>
                                     <input name="address" type="text" class="form-control" id="txtCustomerAddress"
-                                           placeholder="Enter Customer Address">
+                                           placeholder="주소 등록하여 주세요">
                                 </div>
                                 <div class="form-group">
-                                    <label>Salary</label>
-                                    <input name="salary" type="text" class="form-control" id="txtCustomerSalary"
-                                           placeholder="Enter Customer Salary">
+                                    <label>주소구분</label>
+                                    <select name="addGubun" id="txtCustomerAddGubun">
+                                        <option value="1">수원시 장안구</option>
+                                        <option value="3">수원시 권선구</option>
+                                        <option value="5">수원시 팔달구</option>
+                                        <option value="7">수원시 영통구</option>
+                                      </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>전화번호</label>
+                                    <input name="telNo" type="text" class="form-control" id="txtCustomerTelNo"
+                                           placeholder="전화번호 등록하여 주세요">
+                                </div>
+                                <div class="form-group">
+                                    <label>비고</label>
+                                    <input name="etc" type="text" class="form-control" id="txtCustomerEtc"
+                                           placeholder="비고 등록하여 주세요">
                                 </div>
                             </div>
                             <!-- /.box-body -->
@@ -161,7 +190,6 @@
 
                 </div>
                 <div class="col-12 col-md-8">
-
                     <div class="box">
                         <div class="box-body">
                             <table id="tblCustomers" class="table table-bordered table-hover">
@@ -173,10 +201,16 @@
                                 </colgroup>
                                 <thead>
                                 <tr>
-                                    <th style="text-align: center;">ID</th>
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th style="text-align: center;">
+                                    <th width="10%" style="text-align: center;">회원번호</th>
+                                    <th width="10%" style="text-align: center;">성명</th>
+                                    <th width="10%" style="text-align: center;">세례명</th>
+                                    <th width="3%" style="text-align: center;">성별</th>
+                                    <th width="5%" style="text-align: center;">생년월일</th>
+                                    <th width="26%" style="text-align: center;">주소</th>
+                                    <th width="3%" style="text-align: center;">구분</th>
+                                    <th width="15%" style="text-align: center;">전화번호</th>
+                                    <th width="15%" style="text-align: center;">비고</th>
+                                    <th width="3%" style="text-align: center;">
                                         Remove
                                     </th>
                                 </tr>
@@ -243,18 +277,21 @@
 </script>
 <script>
 
-    //var SERVER_URL = "http://localhost:3000";
-    var SERVER_URL = "http://10.70.62.102:3000";
+    var SERVER_URL = "http://localhost:3000";
+    //var SERVER_URL = "http://10.70.62.102:3000";
 
     $("#btnSave").click(function(){
-
         if ($("#txtCustomerId").attr("disabled")){
-
             var customer = {
-                id: $("#txtCustomerId").val(),
-                name: $("#txtCustomerName").val(),
-                address: $("#txtCustomerAddress").val(),
-                salary: $("#txtCustomerSalary").val()
+                id        : $("#txtCustomerId").val(),
+                name      : $("#txtCustomerName").val(),
+                chName    : $("#txtCustomerChName").val(),
+                gender    : $("#txtCustomerGender").val(),
+                birthDate : $("#txtCustomerBirthDate").val(),
+                address   : $("#txtCustomerAddress").val(),
+                addGubun  : $("#txtCustomerAddGubun").val(),
+                telNo     : $("#txtCustomerTelNo").val(),
+                etc       : $("#txtCustomerEtc").val()
             };
 
             var ajaxConfig = {
@@ -277,11 +314,16 @@
         }else{
 
             var customer = {
-                id: $("#txtCustomerId").val(),
-                name: $("#txtCustomerName").val(),
-                address: $("#txtCustomerAddress").val(),
-                salary: $("#txtCustomerSalary").val()
-            };
+                id        : $("#txtCustomerId").val(),
+                name      : $("#txtCustomerName").val(),
+                chName    : $("#txtCustomerChName").val(),
+                gender    : $("#txtCustomerGender").val(),
+                birthDate : $("#txtCustomerBirthDate").val(),
+                address   : $("#txtCustomerAddress").val(),
+                addGubun  : $("#txtCustomerAddGubun").val(),
+                telNo     : $("#txtCustomerTelNo").val(),
+                etc       : $("#txtCustomerEtc").val()
+             };
 
             var ajaxConfig = {
                 method: "POST",
@@ -299,8 +341,6 @@
                 alert("Unable to save the customer, try again");
                 console.log(error);
             });
-
-
         }
 
     });
@@ -311,13 +351,10 @@
     });
 
     $(document).ready(function(){
-
         loadAllCustomers();
-
     });
 
     function loadAllCustomers(){
-
         $("#tblCustomers").dataTable().fnDestroy();
         $("#tblCustomers tbody tr").remove();
 
@@ -328,13 +365,18 @@
         };
 
         $.ajax(ajaxConfig).done(function(customers,statusText,jxhr){
-
+            console.log(customers);
             customers.forEach(function(customer){
-
                 var html = `<tr>
                                 <td>${customer.id}</td>
                                 <td>${customer.name}</td>
+                                <td>${customer.chName}</td>
+                                <td>${customer.gender}</td>
+                                <td>${customer.birthDate}</td>
                                 <td>${customer.address}</td>
+                                <td>${customer.addGubun}</td>
+                                <td>${customer.telNo}</td>
+                                <td>${customer.etc}</td>
                                 <td><button type="button" class="btn btn-success delete">Delete</button></td>
                             </tr>`;
 
@@ -344,12 +386,16 @@
                 $("#tblCustomers tbody tr").click(function(){
                     $("#tblCustomers tbody tr").removeClass("selected-row");
                     $(this).addClass("selected-row");
-
                     $("#txtCustomerId").val($(this).find("td:first-child").text());
                     $("#txtCustomerId").attr("disabled",true);
                     $("#txtCustomerName").val($(this).find("td:nth-child(2)").text());
-                    $("#txtCustomerAddress").val($(this).find("td:nth-child(3)").text());
-
+                    $("#txtCustomerChName").val($(this).find("td:nth-child(3)").text());
+                    $("#txtCustomerGender").val($(this).find("td:nth-child(4)").text());
+                    $("#txtCustomerBirthDate").val($(this).find("td:nth-child(5)").text());
+                    $("#txtCustomerAddress").val($(this).find("td:nth-child(6)").text());
+                    $("#txtCustomerAddGubun").val($(this).find("td:nth-child(7)").text());
+                    $("#txtCustomerTelNo").val($(this).find("td:nth-child(8)").text());
+                    $("#txtCustomerEtc").val($(this).find("td:nth-child(9)").text());
                 });
 
                 $("button.delete").off("click");

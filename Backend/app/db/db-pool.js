@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mysql = require("mysql");
 
 exports.pool = mysql.createPool({
-    host     : "10.70.62.34",
+    host     : "localhost",
     port     : 3306,
-    database : "testdb",
+    database : "hanuldb",
     user     : "root",
     password : "8430",
     connectionLimit: 10
