@@ -103,7 +103,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Manage Items
+                제품 관리
                 <small>Add, Update, Delete and Search Items</small>
             </h1>
             <ol class="breadcrumb">
@@ -122,31 +122,33 @@
 
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Items Information</h3>
+                            <h3 class="box-title">제품 정보</h3>
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
                         <form role="form">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label>Item ID</label>
-                                    <input name="code" type="text" class="form-control" id="txtItemId"
-                                           placeholder="Enter Customer ID">
+                                    <label>제품 코드</label>
+                                    <input name="code" type="text" class="form-control" id="txtItemCode"
+                                           placeholder="제품 코드를 등록하여 주세요">
                                 </div>
                                 <div class="form-group">
-                                    <label>Item Name</label>
-                                    <input name="description" type="text" class="form-control" id="txtItemName"
-                                           placeholder="Enter Item Name">
+                                    <label>구분</label>
+                                    <select name="gubun" type="text" class="form-control" id="txtItemGubun">
+                                        <option value="0">기증</option>
+                                        <option value="1">구매</option>
+                                      </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Item qty</label>
-                                    <input name="qtyOnHand" type="text" class="form-control" id="txtItemQty"
-                                           placeholder="Enter Item qty">
+                                    <label>명칭</label>
+                                    <input name="description" type="text" class="form-control" id="txtItemDescription"
+                                           placeholder="명칭을 등록하여 주세요">
                                 </div>
                                 <div class="form-group">
-                                    <label>Item Price</label>
-                                    <input name="unitPrice" type="text" class="form-control" id="txtItemPrices"
-                                           placeholder="Enter Item Price">
+                                    <label>사용 여부</label>
+                                    <input name="used" type="text" class="form-control" id="txtItemUsed" value="1"
+                                           placeholder="사용여부를 등록하여 주세요">
                                 </div>
                             </div>
                             <!-- /.box-body -->
@@ -248,18 +250,18 @@
 
     $("#btnSave").click(function(){
 
-        if ($("#txtItemId").attr("disabled")){
+        if ($("#txtItemCode").attr("disabled")){
 
             var items = {
-                code: $("#txtItemId").val(),
-                description: $("#txtItemName").val(),
-                qtyOnHand: $("#txtItemQty").val(),
-                unitPrice: $("#txtItemPrices").val()
+                code: $("#txtItemCode").val(),
+                gubun: $("#txtItemGubun").val(),
+                description: $("#txtItemDescription").val(),
+                used: $("#txtItemUsed").val()
             };
 
             var ajaxConfig = {
                 method: "PUT",
-                url: SERVER_URL + "/api/v1/items/" + $("#txtItemId").val(),
+                url: SERVER_URL + "/api/v1/items/" + $("#txtItemCode").val(),
                 async: true,
                 contentType: "application/json",
                 data: JSON.stringify(items)
@@ -267,7 +269,7 @@
 
             $.ajax(ajaxConfig).done(function(response,statusText,jxhr){
                 alert("Updated Successfully");
-                loadAllCustomers();
+                loadAllItem();
                 $('button[type="reset"]').trigger("click");
             }).fail(function(jxhr,statusText,error){
                alert("Unable to update the Items, try again");
@@ -277,10 +279,10 @@
         }else{
 
             var item = {
-                code: $("#txtItemId").val(),
-                description: $("#txtItemName").val(),
-                qtyOnHand: $("#txtItemQty").val(),
-                unitPrice: $("#txtItemPrices").val()
+                code: $("#txtItemCode").val(),
+                gubun: $("#txtItemGubun").val(),
+                description: $("#txtItemDescription").val(),
+                used: $("#txtItemUsed").val()
             };
 
             var ajaxConfig = {
@@ -293,7 +295,7 @@
 
             $.ajax(ajaxConfig).done(function(response,statusText,jxhr){
                 alert("Added Successfully");
-                loadAllCustomers();
+                loadAllItem();
                 $('button[type="reset"]').trigger("click");
             }).fail(function(jxhr,statusText,error){
                 alert("Unable to save the item, try again");
@@ -307,16 +309,16 @@
 
     $('button[type="reset"]').click(function(){
        $("#tblCustomers tbody tr").removeClass("selected-row");
-        $("#txtItemId").attr("disabled",false);
+        $("#txtItemCode").attr("disabled",false);
     });
 
     $(document).ready(function(){
 
-        loadAllCustomers();
+        loadAllItem();
 
     });
 
-    function loadAllCustomers(){
+    function loadAllItem(){
 
         $("#tblItems").dataTable().fnDestroy();
         $("#tblItems tbody tr").remove();
@@ -328,14 +330,13 @@
         };
 
         $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
-            console.log(items)
             items.forEach(function(item){
 
                 var html = `<tr>
                                 <td>${item.code}</td>
+                                <td>${item.gubun}</td>
                                 <td>${item.description}</td>
-                                <td>${item.qtyOnHand}</td>
-                                <td>${item.unitPrice}</td>
+                                <td>${item.used}</td>
                                 <td><button type="button" class="btn btn-success delete">Delete</button></td>
                             </tr>`;
 
@@ -346,11 +347,11 @@
                     $("#tblItems tbody tr").removeClass("selected-row");
                     $(this).addClass("selected-row");
 
-                    $("#txtItemId").val($(this).find("td:first-child").text());
-                    $("#txtItemId").attr("disabled",true);
-                    $("#txtItemName").val($(this).find("td:nth-child(2)").text());
-                    $("#txtItemQty").val($(this).find("td:nth-child(3)").text());
-                    $("#txtItemPrices").val($(this).find("td:nth-child(4)").text());
+                    $("#txtItemCode").val($(this).find("td:first-child").text());
+                    $("#txtItemCode").attr("disabled",true);
+                    $("#txtItemGubun").val($(this).find("td:nth-child(2)").text());
+                    $("#txtItemDescription").val($(this).find("td:nth-child(3)").text());
+                    $("#txtItemUsed").val($(this).find("td:nth-child(4)").text());
                 });
 
                 $("button.delete").off("click");
@@ -401,8 +402,6 @@
         }).fail(function(jxhr,statusText,error){
             console.log(error);
         });
-
-
     }
 
 </script>

@@ -33,8 +33,8 @@ var ItemBoImpl = /** @class */ (function () {
                 else {
                     var itemDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.ITEM, connection);
                     var promise = itemDAO.findAll();
-                    promise.then(function (customers) {
-                        resolve(customers);
+                    promise.then(function (items) {
+                        resolve(items);
                         db_pool_1.pool.releaseConnection(connection);
                     }).catch(function (error) {
                         reject(error);

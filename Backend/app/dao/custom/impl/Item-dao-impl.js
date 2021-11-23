@@ -60,7 +60,7 @@ var ItemDAOImpl = /** @class */ (function () {
     ItemDAOImpl.prototype.save = function (entity) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.connection.query("INSERT INTO Item VALUES ('" + entity.code + "','" + entity.description + "','" + entity.qtyOnHand + "','" + entity.unitPrice + "')", function (err, results) {
+            _this.connection.query("INSERT INTO Item VALUES ('" + entity.code + "','" + entity.gubun + "','" + entity.description + "','" + entity.used + "')", function (err, results) {
                 if (err) {
                     reject(err);
                 }
@@ -73,8 +73,8 @@ var ItemDAOImpl = /** @class */ (function () {
     ItemDAOImpl.prototype.update = function (entity) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.log("UPDATE Item SET description = '" + entity.description + "', qtyOnHand ='" + entity.qtyOnHand + "', unitPrice ='" + entity.unitPrice + "' WHERE code='" + entity.code + "'");
-            _this.connection.query("UPDATE Item SET description = '" + entity.description + "', qtyOnHand ='" + entity.qtyOnHand + "', unitPrice ='" + entity.unitPrice + "' WHERE code='" + entity.code + "'", function (err, results) {
+            console.log("UPDATE Item");
+            _this.connection.query("UPDATE Item SET gubun = '" + entity.gubun + "', description ='" + entity.description + "', used ='" + entity.used + "' WHERE code='" + entity.code + "'", function (err, results) {
                 if (err) {
                     reject(err);
                 }
