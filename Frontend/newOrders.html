@@ -125,10 +125,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>Customer ID</label>
-                                                <select class="form-control select2" style="width: 100%;" id="cmbCustomerID">
-                                                    <option selected="selected">Select Customer ID</option>
-                                                </select>
+                                                <label>회원번호</label>
+                                                <input name="cutomerid" type="text" class="form-control" id="cmbCustomerID"
+                                                placeholder="회원번호를 등록하여 주세요">    
                                             </div>
                                             <div>Customer Name: <label id="lblCustomerName"></label></div>                                </div>
                                         </div>
@@ -144,10 +143,10 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>Item Code</label>
-                                                <select class="form-control select2" style="width: 100%;" id="cmbItemCode">
-                                                    <option selected="selected">Select Item Code</option>
-                                                </select>
+                                                <label>제품코드</label>
+                                                <input name="itemcode" type="text" class="form-control" id="cmbItemCode"
+                                                placeholder="제품코드를 등록하여 주세요">    
+
                                             </div>
                                             <div id="item-details">
                                                 <div>Item Description: <label id="lblItemDescription"></label></div>
@@ -285,33 +284,7 @@
         //console.log("customerName", findCustomerName('210001'));
         //console.log("codeDescription", findCodeDescription('200001'));
         ///// finAllCustomers
-        var ajaxConfig = {
-            method: "GET",
-            url: SERVER_URL + "/api/v1/customers",
-            async: true
-        }
-        $.ajax(ajaxConfig).done(function(response,statusText,jxhr){
-            response.forEach(function(element){
-                $("#cmbCustomerID").append(`<option value="${element.id}">
-                                                ${element.id}
-                                                </option>`);
-            });
-        }).fail(function(jxhr,statusText,error){
-            });
         ///// findAllItems
-        var ajaxConfig = {
-            method: "GET",
-            url: SERVER_URL + "/api/v1/items",
-            async: true
-        }
-        $.ajax(ajaxConfig).done(function(response,statusText,jxhr){
-            response.forEach(function(element){
-                $("#cmbItemCode").append(`<option value="${element.code}">
-                                                ${element.code}
-                                                </option>`);
-            });
-        }).fail(function(jxhr,statusText,error){
-        });
         ///// findAllOrders
         var ajaxConfig = {
             method: "GET",
