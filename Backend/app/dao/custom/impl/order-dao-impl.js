@@ -58,9 +58,10 @@ var OrderDAOImpl = /** @class */ (function () {
         });
     };
     OrderDAOImpl.prototype.save = function (entity) {
+        console.log("bu", entity);
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.connection.query("INSERT INTO Orders VALUES ('" + entity.id + "','" + entity.date + "','" + entity.customerId + "','" + entity.customerName  + "','" + entity.total + "')", function (err, results) {
+            _this.connection.query("INSERT INTO Orders VALUES ('" + entity.id + "','" + entity.orDate + "','" + entity.gubun + "','" + entity.customerId + "')", function (err, results) {
                 if (err) {
                     reject(err);
                 }
@@ -73,7 +74,7 @@ var OrderDAOImpl = /** @class */ (function () {
     OrderDAOImpl.prototype.update = function (entity) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.connection.query("UPDATE Orders SET date = '" + entity.date + "', customerId ='" + entity.customerId + "', customerName ='" + entity.customerName + "', totoal ='" + entity.total + "' WHERE id='" + entity.id + "'", function (err, results) {
+            _this.connection.query("UPDATE Orders SET date = '" + entity.orDate + "', gubun ='" + entity.gubun + "', customerId ='" + entity.customerId + "' WHERE id='" + entity.id + "'", function (err, results) {
                 if (err) {
                     reject(err);
                 }

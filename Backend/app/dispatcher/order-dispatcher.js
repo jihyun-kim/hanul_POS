@@ -16,7 +16,7 @@ orderDispatcher.route("")
         });
     })
     .post(function (req, res) {
-        if (!("id" in req.body && "name" in req.body && "address" in req.body)) {
+        if (!("id" in req.body && "orDate" in req.body && "customerId" in req.body)) {
             res.status(400).send("Invalid Request Body");
             return;
         }
@@ -65,7 +65,7 @@ orderDispatcher.route("/:id")
         });
     })
     .put(function (req, res) {
-        if (!("id" in req.body && "name" in req.body && "address" in req.body)) {
+        if (!("id" in req.body && "orDate" in req.body && "customerId" in req.body)) {
             res.status(400).send("Invalid Request Body");
             return;
         }

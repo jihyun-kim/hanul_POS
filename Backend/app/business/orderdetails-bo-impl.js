@@ -33,6 +33,7 @@ var OrderDetailsBOImpl = /** @class */ (function () {
                                 console.log('success Orders!');
                                 ///////////////    
                                 orderDetails.forEach( function(orderDetail) {
+                                    console.log("dis", orderDetail);
                                     var promise1 = orderDetailsDAO_1.save(orderDetail);
                                     promise1.then(function (result) {
                                         conn.commit(function (err) {
@@ -78,6 +79,28 @@ var OrderDetailsBOImpl = /** @class */ (function () {
                 else {
                     var orderDetailsDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.ORDERDETAILS, connection);
                     var promise = orderDetailsDAO.find(id);
+                    promise.then(function (orderDetails) {
+                        resolve(orderDetails);
+                        db_pool_1.pool.releaseConnection(connection);
+                    }).catch(function (error) {
+                        reject(error);
+                        db_pool_1.pool.releaseConnection(connection);
+                    });
+                }
+            });
+        });
+    };
+
+    OrderDetailsBOImpl.prototype.findCheckItem = function (id, ordate) {
+        console.log('---bussiness/orderdetails-bo-impl/findCheckItem----', id, ordate);
+        return new Promise(function (resolve, reject) {
+            db_pool_1.pool.getConnection(function (err, connection) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    var orderDetailsDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.ORDERDETAILS, connection);
+                    var promise = orderDetailsDAO.findCehckItem(id, ordate);
                     promise.then(function (orderDetails) {
                         resolve(orderDetails);
                         db_pool_1.pool.releaseConnection(connection);

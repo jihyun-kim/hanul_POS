@@ -114,6 +114,16 @@
                                         <div>Order ID: <label id="lblOrderId"></label></div>
                                         <div>Order Date: <label id="lblOrderDate"></label></div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label>입력</label>
+                                        <select name="orderGubun" id="txtOrderGubun">
+                                            <option value="1" selected>현장</option>
+                                            <option value="2">방문</option>
+                                          </select>
+                                    </div>
+    
+
                                 </div>
                             </div>
                         </div>
@@ -149,9 +159,9 @@
 
                                             </div>
                                             <div id="item-details">
-                                                <div>Item Description: <label id="lblItemDescription"></label></div>
-                                                <div>Unit Price: <label id="lblItemUnitPrice"></label></div>
-                                                <div>Qty. On Hand: <label id="lblItemQty"></label></div>
+                                                <div>구분: <label id="lblItemGubun"></label></div>
+                                                <div>명칭: <label id="lblItemDescription"></label></div>
+                                                <div>사용여부: <label id="lblItemUsed"></label></div>
                                             </div>
                                         </div>
                                     </div>
@@ -160,7 +170,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 Qty.
-                                                <input class="form-control" type="number" id="txtQty">
+                                                <input class="form-control" type="number" id="txtQty" value="1" >
                                             </div>
                                             <div>
                                                 <button id="btnAddCart" class="btn btn-warning"> <i class="fas fa-cart-plus"></i> Add to Cart</button>
@@ -188,8 +198,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">Item Code</th>
-                                        <th>Description</th>
-                                        <th class="text-right">Unit Price</th>
+                                        <th class="text-center">Description</th>
                                         <th class="text-center">Qty</th>
                                         <th class="text-right">Total</th>
                                         <th></th>
@@ -264,8 +273,8 @@
 <script src="js/adminlte.min.js"></script>
 <script src="js/date-formatter.js"></script>
 <script>
-    //var SERVER_URL = "http://localhost:3000";
-    var SERVER_URL = "http://10.70.62.102:3000";
+    var SERVER_URL = "http://localhost:3000";
+    //var SERVER_URL = "http://10.70.62.102:3000";
     /////////////////////////////////////////////////////////////////
     //////  start                                                 ///
     /////////////////////////////////////////////////////////////////
@@ -323,9 +332,7 @@
                 var orderId =  parseInt(element.id) + 1;
                 $("#lblOrderId").text(orderId);
             });
-
         }).fail(function(jxhr, statusText, error){
-
         });
 
         $("#tblOrderDetails tbody tr").each(function () {
@@ -336,12 +343,17 @@
         });
 
         reset();
-
+        
         $("#cmbCustomerID").attr("disabled", false);
         $("#cmbItemCode").attr("disabled", false);
         $("#btnAddCart").attr("disabled", false);
-        $("#txtQty").attr("disabled", false);
+        //$("#txtQty").attr("disabled", false);
         $("#btnPlaceOrder").attr("disabled", false);
+
+        //등록번호 확인
+        $("#cmbCustomerID").focus(function(event){
+            $("#cmbCustomerID").css("background-color", "yellow");
+	    });
 
     });
     ////////////////////////
@@ -354,6 +366,13 @@
         $.ajax(ajaxConfig).done(function(response, statusText, jxhr){
             console.log(response.name);
             $("#lblCustomerName").text(response.name);
+
+            var customerId = $("#cmbCustomerID").text();
+            var orDate = $("#lblOrderDate").text();
+		    var retVal = findCheckItem(customerId, orDate);
+            console.log(customerId, orDate, retVal);
+
+
         }).fail(function(jxhr, statusText, error){
         });
     });
@@ -365,9 +384,9 @@
             async: true
         }
         $.ajax(ajaxConfig).done(function(response, statusText, jxhr){
+            $("#lblItemGubun").text(response.gubun);
             $("#lblItemDescription").text(response.description);
-            $("#lblItemQty").text(response.qtyOnHand);
-            $("#lblItemUnitPrice").text(response.unitPrice);
+            $("#lblItemUsed").text(response.used);
         }).fail(function(jxhr, statusText, error){
         });
     });
@@ -376,19 +395,18 @@
 
         var itemCode = $("#cmbItemCode").val();
         var itemDescription = $("#lblItemDescription").text();
-        var unitPrice = parseFloat($("#lblItemUnitPrice").text());
         var qty = parseInt($("#txtQty").val());
-        var total = unitPrice * qty;
+        var total = qty;
         //var item = findItem(itemCode);
         var qtyOnHand = parseInt("#lblQtyOnHand")
 
-        if (qty <= 0 || qty > qtyOnHand) {
-            alert("Invalid Qty");
-            $("#txtQty").addClass('invalid-qty');
-            return;
-        }
+        //if (qty <= 0 || qty > qtyOnHand) {
+        //    alert("Invalid Qty");
+        //    $("#txtQty").addClass('invalid-qty');
+        //    return;
+        //}
 
-        $("#txtQty").removeClass('invalid-qty');
+        //$("#txtQty").removeClass('invalid-qty');
 
         var currentRow = isItemExists(itemCode);
 
@@ -414,7 +432,7 @@
         if (currentRow) {
             var currentQty = parseInt($(currentRow).find("td:nth-child(4)").text());
             currentQty += qty;
-            total = unitPrice * currentQty;
+            total = currentQty;
             $(currentRow).find("td:nth-child(4)").text(currentQty);
             $(currentRow).find("td:nth-child(5)").text(total);
             calculateTotal();
@@ -427,10 +445,8 @@
 
         var html = `<tr>
                         <td class="text-center">${itemCode}</td>
-                        <td>${itemDescription}</td>
-                        <td class="text-right">${unitPrice}</td>
+                        <td class="text-center">${itemDescription}</td>
                         <td class="text-center">${qty}</td>
-                        <td class="text-right">${total}</td>
                         <td><button type="button" class="btn btn-success delete">Delete</button></td>
                     </tr>`;
 
@@ -482,6 +498,7 @@
 
         var orderId = $("#lblOrderId").text().trim();
         var orderDate = $("#lblOrderDate").text().trim();
+        var orderGubun = $("#txtOrderGubun").val();
         var customerId = $("#cmbCustomerID").val();
         var customerName = $("#lblCustomerName").text().trim();
         var orderTotal = $("#lblTotal").text().trim();
@@ -495,17 +512,13 @@
 
             var itemCode = $(this).find("td:first-child").text();
             var description = $(this).find("td:nth-child(2)").text();
-            var unitPrice = $(this).find("td:nth-child(3)").text();
-            var qty = $(this).find("td:nth-child(4)").text();
-            var total = $(this).find("td:nth-child(5)").text();
+            var qty = $(this).find("td:nth-child(3)").text();
+            var total = $(this).find("td:nth-child(4)").text();
 
             var orderDetail = {
                 orderId: orderId,
                 itemCode: itemCode,
-                description: description,
-                unitPrice: unitPrice,
-                qty: qty,
-                total: total
+                qty: qty
             };
 
             ordersDetails.push(orderDetail);
@@ -515,7 +528,7 @@
                         <td class="text-center">${orderId}</td>
                         <td class="text-center">${orderDate}</td>
                         <td class="text-center">${customerId}</td>
-                        <td>${customerName}</td>
+                        <td class="text-center">${customerName}</td>
                         <td class="text-right">${orderTotal}</td>
                     </tr>`;
 
@@ -525,10 +538,9 @@
         ////////
         var orders = {
             id : orderId,
-            date : orderDate,
-            customerId : customerId ,
-            customerName : customerName,
-            total : orderTotal
+            orDate : orderDate,
+            gubun : orderGubun,
+            customerId : customerId
         }
 
 
@@ -584,11 +596,10 @@
                 console.log(response);
                 for (var i = 0; i < response.length; i++) {
                     var description = findCodeDescription(response[i].itemCode);
-                    var total =  response[i].qty * response[i].unitPrice;
+                    var total =  response[i].qty ;
                     var html = `<tr>
                                     <td class="text-center">${response[i].itemCode}</td>
-                                    <td>${description}</td>
-                                    <td class="text-right">${response[i].unitPrice}</td>
+                                    <td class="text-center">${description}</td>
                                     <td class="text-center">${response[i].qty}</td>
                                     <td class="text-right">${total}</td>
                                     <td><div class="icon-delete icon-disabled"></div></td>
@@ -623,6 +634,21 @@
 
     });
     ////////////////////////
+    /// test function
+    function findCheckItem(id, ordate) {
+        var retVal = 0;
+        var ajaxConfig = {
+            method: "GET",
+            url: SERVER_URL + "/api/v1/order/" + id,
+            async: false
+        }
+        $.ajax(ajaxConfig).done(function(response, statusText, jxhr){
+            retVal = response;
+            console.log(retVal);
+        }).fail(function(jxhr, statusText, error){
+        });
+        return retVal;
+    }
     /// test function
     function findCustomerName(id) {
         var customerName = '';
@@ -679,8 +705,8 @@
         $("#cmbItemCode").attr("disabled", true);
         $("#cmbCustomerID").val("").trigger("change");
         $("#cmbItemCode").val("").trigger("change");
-        $("#txtQty").val("");
-        $("#txtQty").attr("disabled", true);
+        //$("#txtQty").val("");
+        //$("#txtQty").attr("disabled", true);
         $("#btnAddCart").attr("disabled", true);
         $("#tblOrderDetails tbody tr").remove();
         $("#lblTotal").text("0");
