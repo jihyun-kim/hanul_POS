@@ -11,6 +11,7 @@ var DAOTypes;
     DAOTypes[DAOTypes["ORDERS"] = 2] = "ORDERS";
     DAOTypes[DAOTypes["ORDERDETAILS"] = 3] = "ORDERDETAILS";
 })(DAOTypes = exports.DAOTypes || (exports.DAOTypes = {}));
+
 function getDAO(daoType, connection) {
     switch (daoType) {
         case DAOTypes.CUSTOMER:

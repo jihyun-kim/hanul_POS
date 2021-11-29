@@ -9,6 +9,7 @@ var customer_dispatcher_1 = __importDefault(require("./customer-dispatcher"));
 var item_dispatcher_1 = __importDefault(require("./item-dispatcher"));
 var order_dispatcher_1 = __importDefault(require("./order-dispatcher"));
 var orderdetails_dispatcher_1 = __importDefault(require("./orderdetails-dispatcher"));
+var orderdetails_dispatcher_2 = __importDefault(require("./orderdetails2-dispatcher"));
 var mainDespatcher = express.Router();
 
 mainDespatcher.use(express.json());
@@ -17,4 +18,5 @@ mainDespatcher.use('/api/v1/customers', customer_dispatcher_1.default);
 mainDespatcher.use('/api/v1/items', item_dispatcher_1.default);
 mainDespatcher.use('/api/v1/orders', order_dispatcher_1.default);
 mainDespatcher.use('/api/v1/ordersdetails', orderdetails_dispatcher_1.default);
+mainDespatcher.use('/api/v2/ordersdetails', orderdetails_dispatcher_2.default);
 exports.default = mainDespatcher;

@@ -12,30 +12,16 @@ orderDetailsDispatcher.route("")
         .catch(function (err) { return res.status(500).send(err); });
 });
 
-orderDetailsDispatcher.route("/:id")
+orderDetailsDispatcher.route("/:customerid/:ordate")
     .get(function (req, res) {
-        console.log("--------------------",req.params.id);
-
-        var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findOrderDetails(req.params.id);
+        console.log("--------******------------",req.params.customerid, req.params.ordate);        
+        //var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findCheckItem(req.params.customerid, req.params.ordate);
+        var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findOrderItems(req.params.customerid, req.params.ordate);
         promise.then(function (orderDetails) {
+            //console.log("dis2",orderDetails);
             if (orderDetails.length > 0) {
-                res.status(200).send(orderDetails);
-            }
-            else {
-                res.sendStatus(404);
-            }
-    }).catch(function (error) {
-        res.status(500).send(error);
-    });
-});
-
-orderDetailsDispatcher.route("/:id&/:ordate")
-    .get(function (req, res) {
-        //var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findCheckItem(req.params.id, req.params.ordate);
-        var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findOrderItems(req.params.id, req.params.ordate);
-        promise.then(function (orderDetails) {
-            if (orderDetails.length > 0) {
-                res.status(200).send(orderDetails);
+                res.status(200).json(orderDetails[0]);
+                //res.status(200).send(orderDetails);
             }
             else {
                 res.sendStatus(404);

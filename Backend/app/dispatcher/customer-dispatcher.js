@@ -41,6 +41,7 @@ customerDispatcher.route("/:id")
     .get(function (req, res) {
         var promise = new customer_bo_impl_1.CustomerBoImpl().findCustomer(req.params.id);
         promise.then(function (customers) {
+            //console.log("----dis-----", customers);
             if (customers.length > 0) {
                 res.status(200).send(customers[0]);
             }

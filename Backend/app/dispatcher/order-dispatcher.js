@@ -10,6 +10,7 @@ orderDispatcher.route("")
     .get(function (req, res) {
         var promise = new order_bo_impl_1.OrderBoImpl().findAllOrders();
         promise.then(function (orders) {
+            //console.log("order dip", orders);
             res.status(200).json(orders);
         }).catch(function (error) {
             res.status(500).send(error);

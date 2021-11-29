@@ -69,8 +69,8 @@ var OrderDetailsBOImpl = /** @class */ (function () {
         });
     };
 
-    OrderDetailsBOImpl.prototype.findOrder = function (id) {
-        console.log('---bussiness/orderdetails-bo-impl/findOrder----', id);
+    OrderDetailsBOImpl.prototype.findOrderDetails = function (id) {
+        console.log('---bussiness/orderdetails-bo-impl/findOrderDetails----', id);
         return new Promise(function (resolve, reject) {
             db_pool_1.pool.getConnection(function (err, connection) {
                 if (err) {
@@ -91,8 +91,8 @@ var OrderDetailsBOImpl = /** @class */ (function () {
         });
     };
 
-    OrderDetailsBOImpl.prototype.findCheckItem = function (id, ordate) {
-        console.log('---bussiness/orderdetails-bo-impl/findCheckItem----', id, ordate);
+    OrderDetailsBOImpl.prototype.findCheckItem = function (customerid, ordate) {
+        console.log('---bussiness/orderdetails-bo-impl/findCheckItem----', customerid, ordate);
         return new Promise(function (resolve, reject) {
             db_pool_1.pool.getConnection(function (err, connection) {
                 if (err) {
@@ -100,8 +100,9 @@ var OrderDetailsBOImpl = /** @class */ (function () {
                 }
                 else {
                     var orderDetailsDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.ORDERDETAILS, connection);
-                    var promise = orderDetailsDAO.findCehckItem(id, ordate);
+                    var promise = orderDetailsDAO.CheckItem(customerid, ordate);
                     promise.then(function (orderDetails) {
+                        console.log(orderDetails);
                         resolve(orderDetails);
                         db_pool_1.pool.releaseConnection(connection);
                     }).catch(function (error) {
@@ -111,6 +112,30 @@ var OrderDetailsBOImpl = /** @class */ (function () {
                 }
             });
         });
+    };
+
+    OrderDetailsBOImpl.prototype.findOrderItems = function (customerid, ordate) {
+        console.log('---***bussiness/orderdetails-bo-impl/findOrderItems----', customerid, ordate);
+        return new Promise(function (resolve, reject) {
+            db_pool_1.pool.getConnection(function (err, connection) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    var orderDetailsDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.ORDERDETAILS, connection);
+                    var promise = orderDetailsDAO.OrderItems(customerid, ordate);
+                    promise.then(function (orderDetails) {
+                        //console.log("bo-->", orderDetails);
+                        resolve(orderDetails);
+                        db_pool_1.pool.releaseConnection(connection);
+                    }).catch(function (error) {
+                        reject(error);
+                        db_pool_1.pool.releaseConnection(connection);
+                    });
+                }
+            });
+        });
+        
     };
 
     return OrderDetailsBOImpl;

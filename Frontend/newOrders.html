@@ -139,9 +139,31 @@
                                                 <input name="cutomerid" type="text" class="form-control" id="cmbCustomerID"
                                                 placeholder="회원번호를 등록하여 주세요">    
                                             </div>
-                                            <div>Customer Name: <label id="lblCustomerName"></label></div>                                </div>
+                                            <div>
+                                                    성명: <label id="lblCustomerName"></label>                           
+                                                생년월일: <label id="lblCustomerBirthDate"></label>
+                                                전화번호: <label id="lblCustomerTelNo"></label>
+                                            </div>                     
                                         </div>
                                         <!-- /.col -->
+
+
+                                        <div class="box-body">
+                                            <table id="tblOrderItems" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">일자</th>
+                                                        <th class="text-center">품명</th>
+                                                        <th class="text-center">구분</th>
+                                                        <th class="text-center">수량</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                
+
                                     </div>
                             </div>
                         </div>
@@ -159,9 +181,11 @@
 
                                             </div>
                                             <div id="item-details">
-                                                <div>구분: <label id="lblItemGubun"></label></div>
-                                                <div>명칭: <label id="lblItemDescription"></label></div>
-                                                <div>사용여부: <label id="lblItemUsed"></label></div>
+                                                <div>
+                                                    구분: <label id="lblItemGubun"></label>
+                                                    명칭: <label id="lblItemDescription"></label>
+                                                    사용여부: <label id="lblItemUsed"></label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -366,15 +390,40 @@
         $.ajax(ajaxConfig).done(function(response, statusText, jxhr){
             console.log(response.name);
             $("#lblCustomerName").text(response.name);
-
-            var customerId = $("#cmbCustomerID").text();
-            var orDate = $("#lblOrderDate").text();
-		    var retVal = findCheckItem(customerId, orDate);
-            console.log(customerId, orDate, retVal);
-
-
-        }).fail(function(jxhr, statusText, error){
+            $("#lblCustomerBirthDate").text(response.birthDate);
+            $("#lblCustomerTelNo").text(response.telNo);
+           }).fail(function(jxhr, statusText, error){
         });
+
+        /// 해당월 사용내역 표시 
+        var ajaxConfig = {
+            method: "GET",
+            url: SERVER_URL + "/api/v2/ordersdetails/" + $(this).val() +"/"+ $("#lblOrderDate").text(),
+            async: true
+        }
+        $.ajax(ajaxConfig).done(function(response,statusText,jxhr){
+            response.forEach(function(element){
+                console.log(element);
+                var html = `<tr>
+                        <td class="text-center">${element.orDate}</td>
+                        <td class="text-center">${element.description}</td>
+                        <td class="text-center">${element.gubun}</td>
+                        <td class="text-center">${element.qty}</td>
+                    </tr>`;
+                $("#tblOrderItems").append(html);
+            });
+        }).fail(function(jxhr,statusText,error){
+        });
+
+
+        // 사용수량 확인용
+        //var customerId = $("#cmbCustomerID").text();
+        //var orDate = $("#lblOrderDate").text();
+        //var retVal = findCheckItem(customerId, orDate);
+        //console.log(customerId, orDate, retVal);
+
+
+
     });
     ////////////////////////
     $("#cmbItemCode").change(function(){

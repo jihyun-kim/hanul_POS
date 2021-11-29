@@ -71,10 +71,25 @@ var OrderDetailsDAOImpl = /** @class */ (function () {
             });
         });
     };
-    OrderDetailsDAOImpl.prototype.findCheckItem = function (id, ordate) {
+    
+    OrderDetailsDAOImpl.prototype.CheckItem = function (customerid, ordate) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.connection.query("SELECT checkItem('" + id + "', '" + ordate + "' )", function (err, results) {
+            _this.connection.query("SELECT checkItem('" + customerid + "', '" + ordate + "' ) as count;", function (err, results) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    };
+
+    OrderDetailsDAOImpl.prototype.OrderItems = function (customerid, ordate) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.connection.query("CALL orderItems('" + customerid + "', '" + ordate + "' )", function (err, results) {
                 if (err) {
                     reject(err);
                 }

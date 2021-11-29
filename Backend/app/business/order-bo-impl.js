@@ -18,6 +18,7 @@ var OrderBoImpl = /** @class */ (function () {
                     var orderDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.ORDERS, connection);
                     var promise = orderDAO.findAllOrders();
                     promise.then(function (orders) {
+                        //console.log("finallorder", orders);
                         resolve(orders);
                         db_pool_1.pool.releaseConnection(connection);
                     }).catch(function (error) {
