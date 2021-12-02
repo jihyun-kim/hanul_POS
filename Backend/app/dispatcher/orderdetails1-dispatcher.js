@@ -6,7 +6,7 @@ var orderDetailsDispatcher = express.Router();
 
 orderDetailsDispatcher.route("")
     .post(function (req, res) {
-    console.log("orderDetailDisptcher=>", req.body[0], req.body[1]);
+    //console.log("orderDetailDisptcher=>", req.body[0], req.body[1]);
     var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().orderTransaction(req.body[0], req.body[1]);
     promise.then(function (status) { return res.status(201).json(status); })
         .catch(function (err) { return res.status(500).send(err); });
@@ -14,8 +14,6 @@ orderDetailsDispatcher.route("")
 
 orderDetailsDispatcher.route("/:id")
     .get(function (req, res) {
-        console.log("--------------------",req.params.id);
-
         var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findOrderDetails(req.params.id);
         promise.then(function (orderDetails) {
             if (orderDetails.length > 0) {
@@ -29,13 +27,12 @@ orderDetailsDispatcher.route("/:id")
     });
 });
 
-orderDetailsDispatcher.route("/:id&/:ordate")
+orderDetailsDispatcher.route("/:customerid/:ordate")
     .get(function (req, res) {
-        //var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findCheckItem(req.params.id, req.params.ordate);
-        var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findOrderItems(req.params.id, req.params.ordate);
+        var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findCheckItem(req.params.customerid, req.params.ordate);
         promise.then(function (orderDetails) {
             if (orderDetails.length > 0) {
-                res.status(200).send(orderDetails);
+                res.status(200).send(orderDetails[0]);
             }
             else {
                 res.sendStatus(404);
@@ -44,6 +41,5 @@ orderDetailsDispatcher.route("/:id&/:ordate")
         res.status(500).send(error);
     });
 });
-
 
 exports.default = orderDetailsDispatcher;

@@ -68,25 +68,25 @@
                 <li class="header">MAIN NAVIGATION</li>
                 <li>
                     <a href="index.html">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                        <i class="fa fa-dashboard"></i> <span>현황판</span>
                     </a>
                 </li>
 
                 <li class="active">
                     <a href="manage-customers.html">
-                        <i class="fa fa-user"></i> <span>Manage Customers</span>
+                        <i class="fa fa-user"></i> <span>회원관리</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="manage-items.html">
-                        <i class="fa fa-list"></i> <span>Manage Items</span>
+                        <i class="fa fa-list"></i> <span>제품관리</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="newOrders.html">
-                        <i class="fa fa-shopping-cart"></i> <span>Place Order</span>
+                        <i class="fa fa-shopping-cart"></i> <span>판매관리</span>
                     </a>
                 </li>
             </ul>
@@ -98,7 +98,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <!--<h1>New Order</h1>-->
-            <button id="btnNewOrder" class="btn btn-success"><i class="fas fa-plus"></i> New Order</button>
+            <button id="btnNewOrder" class="btn btn-success"><i class="fas fa-plus"></i> 신규판매</button>
         </section>
 
         <!-- Main content -->
@@ -110,13 +110,13 @@
                         <div class="col-md-12">
                             <div class="box box-default">
                                 <div class="box-body">
-                                    <div class="col-md-6">
+                                    <div class="col-md-8">
                                         <div>Order ID: <label id="lblOrderId"></label></div>
                                         <div>Order Date: <label id="lblOrderDate"></label></div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label>입력</label>
+                                        <label>등록</label>
                                         <select name="orderGubun" id="txtOrderGubun">
                                             <option value="1" selected>현장</option>
                                             <option value="2">방문</option>
@@ -145,9 +145,6 @@
                                                 전화번호: <label id="lblCustomerTelNo"></label>
                                             </div>                     
                                         </div>
-                                        <!-- /.col -->
-
-
                                         <div class="box-body">
                                             <table id="tblOrderItems" class="table table-bordered table-hover">
                                                 <thead>
@@ -162,9 +159,19 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                
-
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-body">
+                                    <div class="col-md-8">
+                                        <div> 구매 물품 수량: <label id="lblFindCheckItem"></label></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -197,7 +204,7 @@
                                                 <input class="form-control" type="number" id="txtQty" value="1" >
                                             </div>
                                             <div>
-                                                <button id="btnAddCart" class="btn btn-warning"> <i class="fas fa-cart-plus"></i> Add to Cart</button>
+                                                <button id="btnAddCart" class="btn btn-warning"> <i class="fas fa-cart-plus"></i> 장바구니넣기</button>
                                             </div>
                                         </div>
                                     </div>
@@ -214,17 +221,17 @@
                 <div class="col-lg-6 col-xs-6">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Item Details</h3>
+                            <h3 class="box-title">장바구니 품목</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table id="tblOrderDetails" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Item Code</th>
-                                        <th class="text-center">Description</th>
-                                        <th class="text-center">Qty</th>
-                                        <th class="text-right">Total</th>
+                                        <th class="text-center">제품코드</th>
+                                        <th class="text-center">명칭</th>
+                                        <th class="text-center">구분</th>
+                                        <th class="text-right">수량</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -374,10 +381,14 @@
         //$("#txtQty").attr("disabled", false);
         $("#btnPlaceOrder").attr("disabled", false);
 
+        // cursor focus
+        $('#cmbCustomerID').focus();
+        $("#cmbCustomerID").css("background-color", "yellow");
+
         //등록번호 확인
-        $("#cmbCustomerID").focus(function(event){
-            $("#cmbCustomerID").css("background-color", "yellow");
-	    });
+        //$("#cmbCustomerID").focus(function(event){
+        //    $("#cmbCustomerID").css("background-color", "yellow");
+	    //});
 
     });
     ////////////////////////
@@ -393,6 +404,18 @@
             $("#lblCustomerBirthDate").text(response.birthDate);
             $("#lblCustomerTelNo").text(response.telNo);
            }).fail(function(jxhr, statusText, error){
+        });
+
+        // 해당월 사용수량 확인용  (function)
+        var ajaxConfig = {
+            method: "GET",
+            url: SERVER_URL + "/api/v1/ordersdetails/" + $(this).val() +"/"+ $("#lblOrderDate").text(),
+            async: true
+        }
+        $.ajax(ajaxConfig).done(function(response,statusText,jxhr){
+            console.log(response.count);
+            $("#lblFindCheckItem").text(response.count);
+        }).fail(function(jxhr,statusText,error){
         });
 
         /// 해당월 사용내역 표시 
@@ -416,12 +439,11 @@
         });
 
 
-        // 사용수량 확인용
-        //var customerId = $("#cmbCustomerID").text();
-        //var orDate = $("#lblOrderDate").text();
-        //var retVal = findCheckItem(customerId, orDate);
-        //console.log(customerId, orDate, retVal);
 
+        // cursor focus
+        //$('input[name=itemcode]').focus();
+        $('#cmbItemCode').focus();
+        $("#cmbItemCode").css("background-color", "yellow");
 
 
     });
@@ -438,6 +460,9 @@
             $("#lblItemUsed").text(response.used);
         }).fail(function(jxhr, statusText, error){
         });
+
+        $('#btnAddCart').focus();
+
     });
     ////////////////////////
     $("#btnAddCart").click(function () {
@@ -446,16 +471,23 @@
         var itemDescription = $("#lblItemDescription").text();
         var qty = parseInt($("#txtQty").val());
         var total = qty;
-        //var item = findItem(itemCode);
-        var qtyOnHand = parseInt("#lblQtyOnHand")
+        var qtyOnHand = parseInt($("#lblFindCheckItem").val());
+        var qtyCheckItem = parseInt($("#lblFindCheckItem").text());
+        var gubun = parseInt($("#lblItemGubun").text());
 
-        //if (qty <= 0 || qty > qtyOnHand) {
-        //    alert("Invalid Qty");
-        //    $("#txtQty").addClass('invalid-qty');
-        //    return;
-        //}
+        if (gubun == 1) {
+            if (qtyCheckItem > 4) {
+                alert("구매 물품 초과!!!");
+                $("#cmbItemCode").addClass('invalid-qty');
+               return;
+            }
 
-        //$("#txtQty").removeClass('invalid-qty');
+            qtyCheckItem += 1;
+            $("#lblFindCheckItem").text(qtyCheckItem).trigger("change");
+        }
+
+        
+        $("#cmbItemCode").removeClass('invalid-qty');
 
         var currentRow = isItemExists(itemCode);
 
@@ -495,6 +527,7 @@
         var html = `<tr>
                         <td class="text-center">${itemCode}</td>
                         <td class="text-center">${itemDescription}</td>
+                        <td class="text-center">${gubun}</td>
                         <td class="text-center">${qty}</td>
                         <td><button type="button" class="btn btn-success delete">Delete</button></td>
                     </tr>`;
@@ -533,6 +566,10 @@
             }
         });
 
+        // cursor focus
+        //$('input[name=itemcode]').focus();
+        $('#cmbItemCode').focus();
+        $("#cmbItemCode").css("background-color", "yellow");
 
 
     });
@@ -684,36 +721,6 @@
     });
     ////////////////////////
     /// test function
-    function findCheckItem(id, ordate) {
-        var retVal = 0;
-        var ajaxConfig = {
-            method: "GET",
-            url: SERVER_URL + "/api/v1/order/" + id,
-            async: false
-        }
-        $.ajax(ajaxConfig).done(function(response, statusText, jxhr){
-            retVal = response;
-            console.log(retVal);
-        }).fail(function(jxhr, statusText, error){
-        });
-        return retVal;
-    }
-    /// test function
-    function findCustomerName(id) {
-        var customerName = '';
-        var ajaxConfig = {
-            method: "GET",
-            url: SERVER_URL + "/api/v1/customers/" + id,
-            async: false
-        }
-        $.ajax(ajaxConfig).done(function(response, statusText, jxhr){
-            customerName = response.name;
-            console.log(customerName);
-        }).fail(function(jxhr, statusText, error){
-        });
-        return customerName;
-    }
-    /////////////////////
     function findCodeDescription(code) {
         var codeDescription = '';
         var ajaxConfig = {

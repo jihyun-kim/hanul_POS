@@ -70,7 +70,7 @@ var OrderDetailsBOImpl = /** @class */ (function () {
     };
 
     OrderDetailsBOImpl.prototype.findOrderDetails = function (id) {
-        console.log('---bussiness/orderdetails-bo-impl/findOrderDetails----', id);
+        //console.log('---bussiness/orderdetails-bo-impl/findOrderDetails----', id);
         return new Promise(function (resolve, reject) {
             db_pool_1.pool.getConnection(function (err, connection) {
                 if (err) {
@@ -92,7 +92,7 @@ var OrderDetailsBOImpl = /** @class */ (function () {
     };
 
     OrderDetailsBOImpl.prototype.findCheckItem = function (customerid, ordate) {
-        console.log('---bussiness/orderdetails-bo-impl/findCheckItem----', customerid, ordate);
+        //console.log('---bussiness/orderdetails-bo-impl/findCheckItem----', customerid, ordate);
         return new Promise(function (resolve, reject) {
             db_pool_1.pool.getConnection(function (err, connection) {
                 if (err) {
@@ -102,7 +102,7 @@ var OrderDetailsBOImpl = /** @class */ (function () {
                     var orderDetailsDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.ORDERDETAILS, connection);
                     var promise = orderDetailsDAO.CheckItem(customerid, ordate);
                     promise.then(function (orderDetails) {
-                        console.log(orderDetails);
+                        //console.log(orderDetails);
                         resolve(orderDetails);
                         db_pool_1.pool.releaseConnection(connection);
                     }).catch(function (error) {
@@ -115,7 +115,7 @@ var OrderDetailsBOImpl = /** @class */ (function () {
     };
 
     OrderDetailsBOImpl.prototype.findOrderItems = function (customerid, ordate) {
-        console.log('---***bussiness/orderdetails-bo-impl/findOrderItems----', customerid, ordate);
+        //console.log('---***bussiness/orderdetails-bo-impl/findOrderItems----', customerid, ordate);
         return new Promise(function (resolve, reject) {
             db_pool_1.pool.getConnection(function (err, connection) {
                 if (err) {

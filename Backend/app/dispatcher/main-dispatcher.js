@@ -8,7 +8,7 @@ var cors = require("cors");
 var customer_dispatcher_1 = __importDefault(require("./customer-dispatcher"));
 var item_dispatcher_1 = __importDefault(require("./item-dispatcher"));
 var order_dispatcher_1 = __importDefault(require("./order-dispatcher"));
-var orderdetails_dispatcher_1 = __importDefault(require("./orderdetails-dispatcher"));
+var orderdetails_dispatcher_1 = __importDefault(require("./orderdetails1-dispatcher"));
 var orderdetails_dispatcher_2 = __importDefault(require("./orderdetails2-dispatcher"));
 var mainDespatcher = express.Router();
 
