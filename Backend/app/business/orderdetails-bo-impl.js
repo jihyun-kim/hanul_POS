@@ -30,10 +30,12 @@ var OrderDetailsBOImpl = /** @class */ (function () {
                                         throw err;
                                     });
                                 }
-                                console.log('success Orders!');
+                                /////////////
+                                resolve(result);
+                                //console.log('success Orders!');
                                 ///////////////    
                                 orderDetails.forEach( function(orderDetail) {
-                                    console.log("dis", orderDetail);
+                                    //console.log("dis", orderDetail);
                                     var promise1 = orderDetailsDAO_1.save(orderDetail);
                                     promise1.then(function (result) {
                                         conn.commit(function (err) {
@@ -42,7 +44,8 @@ var OrderDetailsBOImpl = /** @class */ (function () {
                                                     throw err;
                                                 });
                                             }
-                                            console.log('success orderDetailsDAO!');
+                                            resolve(result);
+                                            //console.log('success orderDetails');
                                         });
                                     }).catch(function (error) {
                                         console.log('unsuccess orderDetailsDAO!');
@@ -51,10 +54,7 @@ var OrderDetailsBOImpl = /** @class */ (function () {
                                             db_pool_1.pool.releaseConnection(connection);
                                         });
                                     });
-                                    //console.log('success orderDetail')
                                 });
-                                /////////////
-                                console.log('success OredsDetails!');
                             });
                         }).catch(function (error) {
                             console.log('unsuccess Order!');

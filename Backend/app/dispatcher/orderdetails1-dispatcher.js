@@ -6,7 +6,7 @@ var orderDetailsDispatcher = express.Router();
 
 orderDetailsDispatcher.route("")
     .post(function (req, res) {
-    //console.log("orderDetailDisptcher=>", req.body[0], req.body[1]);
+    console.log("orderDetailDisptcher=>", req.body[0], req.body[1]);
     var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().orderTransaction(req.body[0], req.body[1]);
     promise.then(function (status) { return res.status(201).json(status); })
         .catch(function (err) { return res.status(500).send(err); });
@@ -29,6 +29,7 @@ orderDetailsDispatcher.route("/:id")
 
 orderDetailsDispatcher.route("/:customerid/:ordate")
     .get(function (req, res) {
+        //console.log("v1-findCheckItem>>",req.params.customerid, req.params.ordate);     
         var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findCheckItem(req.params.customerid, req.params.ordate);
         promise.then(function (orderDetails) {
             if (orderDetails.length > 0) {

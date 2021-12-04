@@ -52,7 +52,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>P</b>OS</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Modern</b>POS</span>
+            <span class="logo-lg"><b>Hanul</b>POS</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -128,6 +128,8 @@
                         <!-- form start -->
                         <form role="form">
                             <div class="box-body">
+                                <button type="button" id="btnNewCustomer" class="fa fa-plus"> 신규회원</button>
+
                                 <div class="form-group">
                                     <label>회원번호</label>
                                     <input name="id" type="text" class="form-control" id="txtCustomerId"
@@ -231,11 +233,9 @@
     <!-- /.content-wrapper -->
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 1.0.0
-        </div>
-        <strong>Copyright &copy; 2019 <a href="http://ijse.lk">DEP - 2019</a>.</strong> All rights
-        reserved.
-    </footer>
+            <div class="pull-right hidden-xs">
+                <strong>jihyun@</strong>cmcnu.or.kr
+        </footer>
 
 </div>
 <!-- ./wrapper -->
@@ -280,6 +280,36 @@
     var SERVER_URL = "http://localhost:3000";
     //var SERVER_URL = "http://10.70.62.102:3000";
 
+    ////////////////////////////////////////////////
+    $(document).ready(function(){
+        //$('#tblCustomers').DataTable( {"order": [[ 0, "desc" ]]} );
+        loadAllCustomers();
+    });
+
+    /////////////////////////////////////////////////
+    $("#btnNewCustomer").click(function () {
+        var ajaxConfig = {
+            method: "GET",
+            url: SERVER_URL + "/api/v1/customers",
+            async: true
+        }
+
+        $.ajax(ajaxConfig).done(function(response, statusText, jxhr){
+            var customerId = "";
+            //console.log("1",response);
+            response.forEach(function(element){
+                //console.log("****",element.id);
+                customerId =  parseInt(element.id) + 1;
+                //$("#txtCustomerId").text(customerId);
+            });
+            console.log("-----", customerId);
+            $("#txtCustomerId").val(customerId);
+        }).fail(function(jxhr, statusText, error){
+        });
+    });
+
+
+    /////////////////////////////////////////////////
     $("#btnSave").click(function(){
         if ($("#txtCustomerId").attr("disabled")){
             var customer = {
@@ -345,15 +375,14 @@
 
     });
 
+    ///////////////////
     $('button[type="reset"]').click(function(){
        $("#tblCustomers tbody tr").removeClass("selected-row");
         $("#txtCustomerId").attr("disabled",false);
     });
 
-    $(document).ready(function(){
-        loadAllCustomers();
-    });
 
+    ///////////////////////////////////////////////////
     function loadAllCustomers(){
         $("#tblCustomers").dataTable().fnDestroy();
         $("#tblCustomers tbody tr").remove();
@@ -365,8 +394,9 @@
         };
 
         $.ajax(ajaxConfig).done(function(customers,statusText,jxhr){
-            console.log(customers);
+            //console.log(customers);
             customers.forEach(function(customer){
+                //console.log("-----",customer.id);
                 var html = `<tr>
                                 <td>${customer.id}</td>
                                 <td>${customer.name}</td>
@@ -436,11 +466,12 @@
                 'ordering'    : true,
                 'info'        : true,
                 'autoWidth'   : true,
-                'pageLength'  : 5,
+                'pageLength'  : 10,
+                "order": [[ 0, "desc" ]],
                 language: {
                     search: "_INPUT_",
                     searchPlaceholder: "Search Customers..."
-                }
+                },
             });
 
         }).fail(function(jxhr,statusText,error){

@@ -45,7 +45,7 @@ var OrderDetailsDAOImpl = /** @class */ (function () {
         });
     };
     OrderDetailsDAOImpl.prototype.save = function (entity) {
-        console.log("bo", entity);
+        //console.log("bo", entity);
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.connection.query("INSERT INTO OrderDetail VALUES ('" + entity.orderId + "','" + entity.itemCode + "','" + entity.qty + "')", function (err, results) {

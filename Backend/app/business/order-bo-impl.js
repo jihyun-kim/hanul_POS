@@ -127,6 +127,44 @@ var OrderBoImpl = /** @class */ (function () {
             });
         });
     };
+    OrderBoImpl.prototype.findOrdateOrder = function (ordate) {
+        return new Promise(function (resolve, reject) {
+            db_pool_1.pool.getConnection(function (err, connection) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    var orderDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.ORDERS, connection);
+                    var promise = orderDAO.findOrdate(ordate);
+                    promise.then(function (result) {
+                        resolve(result);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+                }
+            });
+        });
+    };
+    OrderBoImpl.prototype.toDayOrderCount = function (ordate) {
+        return new Promise(function (resolve, reject) {
+            db_pool_1.pool.getConnection(function (err, connection) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    var orderDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.ORDERS, connection);
+                    var promise = orderDAO.toDayOrder(ordate);
+                    promise.then(function (result) {
+                        resolve(result);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+                }
+            });
+        });
+    };
+
+
     return OrderBoImpl;
 }());
 exports.OrderBoImpl = OrderBoImpl;

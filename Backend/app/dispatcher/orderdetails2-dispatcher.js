@@ -14,7 +14,7 @@ orderDetailsDispatcher.route("")
 
 orderDetailsDispatcher.route("/:customerid/:ordate")
     .get(function (req, res) {
-        //console.log("--------******------------",req.params.customerid, req.params.ordate);        
+        //console.log("v2-findOrderItems>>",req.params.customerid, req.params.ordate);        
         var promise = new orderdetails_bo_impl_1.OrderDetailsBOImpl().findOrderItems(req.params.customerid, req.params.ordate);
         promise.then(function (orderDetails) {
             if (orderDetails.length > 0) {

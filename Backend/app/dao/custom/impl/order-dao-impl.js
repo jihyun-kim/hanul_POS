@@ -18,6 +18,19 @@ var OrderDAOImpl = /** @class */ (function () {
             });
         });
     };
+    OrderDAOImpl.prototype.toDayOrder = function (ordate) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.connection.query("select count(*) as count from Orders where orDate ='" + ordate + "';", function (err, results) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(results[0].count);
+                }
+            });
+        });
+    };
     OrderDAOImpl.prototype.delete = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -57,8 +70,21 @@ var OrderDAOImpl = /** @class */ (function () {
             });
         });
     };
+    OrderDAOImpl.prototype.findOrdate = function (ordate) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.connection.query("CALL orDateOrder('" + ordate + "' )", function (err, results) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    };
     OrderDAOImpl.prototype.save = function (entity) {
-        console.log("bu", entity);
+        //console.log("bu", entity);
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.connection.query("INSERT INTO Orders VALUES ('" + entity.id + "','" + entity.orDate + "','" + entity.gubun + "','" + entity.customerId + "')", function (err, results) {

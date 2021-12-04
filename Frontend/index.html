@@ -30,7 +30,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>P</b>OS</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Modern</b>POS</span>
+            <span class="logo-lg"><b>Hanul</b>POS</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -83,6 +83,8 @@
             <h1>
                 한울마루 현황판
                 <small>Welcome to Hanul POS</small>
+                <h3 id="lblToday">0</h3>
+
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -129,7 +131,7 @@
                         <div class="inner" style="text-align: center">
                             <h3 id="lblOrdersCount">0</h3>
 
-                            <p>금일 판매</p>
+                            <p>금일판매수량</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
@@ -153,7 +155,7 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 1.0.0
         </div>
-        <strong>Copyright &copy; 2019 <a href="http://ijse.lk">DEP - 2019</a>.</strong> All rights
+        <strong>Copyright &copy; 2022 <a href="http://"><strong>jihyun@</strong>cmcnu.or.kr</a>.</strong> All rights
         reserved.
     </footer>
 
@@ -177,6 +179,8 @@
 <script src="js/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="js/adminlte.min.js"></script>
+<!-- moment  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 <script>
     //var SERVER_URL = "http://10.70.62.102:3000";
@@ -184,6 +188,10 @@
 
 
     $(document).ready(function () {
+        /// today
+        const today = moment();
+        $("#lblToday").text(today.format('YYYY-MM-DD'));
+
         /////// CustomersCount
         var ajaxConfig = {
             method: "HEAD",
@@ -209,7 +217,7 @@
         /////// OrdersCount
         var ajaxConfig = {
             method: "HEAD",
-            url: SERVER_URL + "/api/v1/orders",
+            url: SERVER_URL + "/api/v1/orders/" + $("#lblToday").text(),
             async: true
         }
         $.ajax(ajaxConfig).done(function (response, statusText, jxhr) {
@@ -217,6 +225,7 @@
             $("#lblOrdersCount").text(ordersCount);
         }).fail(function (jxhr, statusText, error) {
         });
+
 
     });
 

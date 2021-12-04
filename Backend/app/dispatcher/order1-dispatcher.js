@@ -40,6 +40,7 @@ orderDispatcher.route("")
 
 orderDispatcher.route("/:id")
     .get(function (req, res) {
+        console.log("test-id",req.params.id );
         var promise = new order_bo_impl_1.OrderBoImpl().findOrder(req.params.id);
         promise.then(function (orders) {
             if (orders.length > 0) {
@@ -84,6 +85,18 @@ orderDispatcher.route("/:id")
             }
     }).catch(function (error) {
         res.status(500).send(error);
+        });
+    })
+    .head((cors({
+        exposedHeaders: ['X-Count']
+    })), function (req, res) {
+        var t1 = new Date().valueOf(); // time stamp
+        var promise = new order_bo_impl_1.OrderBoImpl().toDayOrderCount(req.params.id);  // id -> today
+        promise.then(function (count) {
+            res.append("X-Count", count + "");
+            res.sendStatus(200);
+        }).catch(function (error) {
+            res.status(500);
         });
     });
 
