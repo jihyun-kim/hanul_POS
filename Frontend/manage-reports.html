@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Modern POS | IJSE</title>
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="css/skins/_all-skins.min.css">
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <style>
+        .dataTables_filter {
+            text-align: right !important;
+        }
+
+        .delete{
+            padding: 5px;
+        }
+
+        table tbody tr{
+            cursor: pointer;
+        }
+
+        table tbody tr td{
+            vertical-align: middle !important;
+        }
+
+        .selected-row{
+            background-color: rgba(0, 48, 70, 0.16) !important;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="/" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>P</b>OS</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Hanul</b>POS</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">MAIN NAVIGATION</li>
+                <li>
+                    <a href="index.html">
+                        <i class="fa fa-dashboard"></i> <span>현황판</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="manage-customers.html">
+                        <i class="fa fa-user"></i> <span>회원관리</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="manage-items.html">
+                        <i class="fa fa-list"></i> <span>제품관리</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="newOrders.html">
+                        <i class="fa fa-shopping-cart"></i> <span>판매관리</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                보고서 관리
+                <small>report manage</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Dashboard</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col">
+        
+
+                    <ul id="tab-list" class="nav nav-tabs">
+                        <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#qwe">QWE</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#tab2nd">월별 내/방문자 명단</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#zxc">ZXC</a>
+                        </li>
+                    </ul>
+
+
+
+                    <div id="itinerary_tab_content" class="tab-content">
+                        <div class="tab-pane fade show active" id="qwe">
+                            <div class="box-footer">
+                                <button type="button" id="btnPrint" class="btn btn-primary">Print</button>
+                                <button type="reset" class="btn btn-danger">Clear</button>
+                            </div>
+                            <div id="selectArea">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id ornare libero. Vivamus iaculis, justo vel mattis pharetra, nisi ligula varius nisl, sit amet mollis tortor ligula vitae nisi.</p>
+
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="tblItems" class="table table-bordered table-hover">
+                                            <colgroup>
+                                                <col style="width: 50px; text-align: center;">
+                                                <col>
+                                                <col>
+                                                <col style="width: 50px;">
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th width="10%" style="text-align: center;">CODE</th>
+                                                <th width="10%" style="text-align: center;">구 분</th>
+                                                <th width="20%" style="text-align: center;">명 칭</th>
+                                                <th width="10%" style="text-align: center;">사용여부</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="tab2nd">
+                            <div class="box-footer">
+                                <button type="button" id="btnPrint" class="btn btn-primary">Print</button>
+                                <button type="reset" class="btn btn-danger">Clear</button>
+                            </div>
+                            <div id="selectArea">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id ornare libero. Vivamus iaculis, justo vel mattis pharetra, nisi ligula varius nisl, sit amet mollis tortor ligula vitae nisi.</p>
+
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="tblItems" class="table table-bordered table-hover">
+                                            <colgroup>
+                                                <col style="width: 50px; text-align: center;">
+                                                <col>
+                                                <col>
+                                                <col style="width: 50px;">
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th width="10%" style="text-align: center;">CODE</th>
+                                                <th width="10%" style="text-align: center;">구 분</th>
+                                                <th width="20%" style="text-align: center;">명 칭</th>
+                                                <th width="10%" style="text-align: center;">사용여부</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="zxc">
+                        <p>33333ur dignissim quis nunc vitae laoreet. Etiam ut mattis leo, vel fermentum tellus. Sed sagittis rhoncus venenatis. Quisque commodo consectetur faucibus. Aenean eget ultricies justo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>                
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <strong>jihyun@</strong>cmcnu.or.kr
+    </footer>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="js/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="js/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script src="js/bootstrap.min.js"></script>
+<!-- DataTables -->
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="js/dataTables.bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="js/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="js/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="js/adminlte.min.js"></script>
+<script>
+
+    //var SERVER_URL = "http://10.70.62.102:3000";
+    var SERVER_URL = "http://localhost:3000";
+
+    ///////////////////////////////////////////////
+    $(document).ready(function(){
+        loadAllItem();
+
+        //$('a[data-toggle="tab"]').on('hidden.bs.tab', function(e){
+        //	alert("이벤트 실행됨");
+        //    $(this).parentsUntil('#itinerary_tab_content').remove();
+        //});
+        
+        // for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            // save the latest tab; use cookies if you like 'em better:
+            localStorage.setItem('lastTab', $(this).attr('href'));
+        	alert("이벤트 실행됨", lastTab);
+        });
+
+        // go to the latest tab, if it exists:
+        var lastTab = localStorage.getItem('lastTab');
+        if (lastTab) {
+            $('[href="' + lastTab + '"]').tab('show');
+        }
+    });
+    ///////////////////////////////////////////////
+    $("#btnPrint").click(function(){
+        document.body.innerHTML = selectArea.innerHTML;
+			window.print();
+    });
+
+    /////////////////////////////////////////////////
+    function loadAllItem(){
+
+        $("#tblItems").dataTable().fnDestroy();
+        $("#tblItems tbody tr").remove();
+
+        var ajaxConfig = {
+            method: "GET",
+            url:SERVER_URL + "/api/v1/items",
+            async: true
+        };
+
+        $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
+            items.forEach(function(item){
+
+                var html = `<tr>
+                                <td>${item.code}</td>
+                                <td>${item.gubun}</td>
+                                <td>${item.description}</td>
+                                <td>${item.used}</td>
+                            </tr>`;
+
+                $("#tblItems tbody").append(html);
+
+
+            });
+
+        }).fail(function(jxhr,statusText,error){
+            console.log(error);
+        });
+    }
+
+</script>
+</body>
+</html>
