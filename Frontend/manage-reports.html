@@ -116,63 +116,27 @@
         <section class="content">
             <div class="row">
                 <div class="col">
-        
 
-                    <ul id="tab-list" class="nav nav-tabs">
+                    <ul class="nav nav-tabs">
                         <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#qwe">QWE</a>
+                            <a class="nav-link active" data-toggle="tab" href="#qwe">QWE</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#tab2nd">월별 내/방문자 명단</a>
+                            <a class="nav-link" data-toggle="tab" href="#asd">월별 래방자</a>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#zxc">ZXC</a>
+                            <a class="nav-link" data-toggle="tab" href="#zxc">ZXC</a>
                         </li>
                     </ul>
-
-
-
-                    <div id="itinerary_tab_content" class="tab-content">
-                        <div class="tab-pane fade show active" id="qwe">
+                    
+                    <div class="tab-content">
+                        <div class="tab-pane fade" id="qwe">
                             <div class="box-footer">
-                                <button type="button" id="btnPrint" class="btn btn-primary">Print</button>
+                                <button type="button" id="btnPrint1" class="btn btn-primary">Print</button>
                                 <button type="reset" class="btn btn-danger">Clear</button>
                             </div>
-                            <div id="selectArea">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id ornare libero. Vivamus iaculis, justo vel mattis pharetra, nisi ligula varius nisl, sit amet mollis tortor ligula vitae nisi.</p>
-
-                                <div class="box">
-                                    <div class="box-body">
-                                        <table id="tblItems" class="table table-bordered table-hover">
-                                            <colgroup>
-                                                <col style="width: 50px; text-align: center;">
-                                                <col>
-                                                <col>
-                                                <col style="width: 50px;">
-                                            </colgroup>
-                                            <thead>
-                                            <tr>
-                                                <th width="10%" style="text-align: center;">CODE</th>
-                                                <th width="10%" style="text-align: center;">구 분</th>
-                                                <th width="20%" style="text-align: center;">명 칭</th>
-                                                <th width="10%" style="text-align: center;">사용여부</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="tab-pane fade" id="tab2nd">
-                            <div class="box-footer">
-                                <button type="button" id="btnPrint" class="btn btn-primary">Print</button>
-                                <button type="reset" class="btn btn-danger">Clear</button>
-                            </div>
-                            <div id="selectArea">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc id ornare libero. Vivamus iaculis, justo vel mattis pharetra, nisi ligula varius nisl, sit amet mollis tortor ligula vitae nisi.</p>
+                            <div id="selectArea1">
+                                <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>
 
                                 <div class="box">
                                     <div class="box-body">
@@ -197,9 +161,89 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade"  id="asd">
+                            <div class="box-footer">
+                                <select name="Year2" id="year2">
+                                    <option value="2021" selected >2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                  </select>
+                                  <label for="Year2">년</label>
+                                  <select name="Month2" id="month2">
+                                    <option value="01" selected >1</option>
+                                    <option value="02">2</option>
+                                    <option value="03">3</option>
+                                    <option value="04">4</option>
+                                    <option value="05">5</option>
+                                    <option value="06">6</option>
+                                    <option value="07">7</option>
+                                    <option value="08">8</option>
+                                    <option value="09">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                  </select>
+                                  <label for="Month2">월</label>
+                                <button type="button" id="btnQuery2" class="btn btn-primary">조회</button>
+                                <button type="button" id="btnPrint2" class="btn btn-primary">출력</button>
+                            </div>
+                            <div id="selectArea2">
+                                <label id="lbltitle2">월별 래방 환자 리스트</label>
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="tblReport2" class="table table-bordered table-hover">
+                                            <colgroup>
+                                                <col style="width: 50px; text-align: center;">
+                                                <col>
+                                                <col>
+                                                <col style="width: 50px;">
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th width="10%" style="text-align: center;">방문월일</th>
+                                                <th width="10%" style="text-align: center;">회원번호</th>
+                                                <th width="20%" style="text-align: center;">회원성명</th>
+                                                <th width="10%" style="text-align: center;">방문구분</th>
+                                                <th width="10%" style="text-align: center;">판매수량</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
                         <div class="tab-pane fade" id="zxc">
-                        <p>33333ur dignissim quis nunc vitae laoreet. Etiam ut mattis leo, vel fermentum tellus. Sed sagittis rhoncus venenatis. Quisque commodo consectetur faucibus. Aenean eget ultricies justo.</p>
+                            <div class="box-footer">
+                                <button type="button" id="btnPrint" class="btn btn-primary">Print</button>
+                                <button type="reset" class="btn btn-danger">Clear</button>
+                            </div>
+                            <div id="selectArea3">
+                                <p>Curabitur dignissim quis nunc vitae laoreet. Etiam ut mattis leo, vel fermentum tellus. Sed sagittis rhoncus venenatis. Quisque commodo consectetur faucibus. Aenean eget ultricies justo.</p>
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="tblItems" class="table table-bordered table-hover">
+                                            <colgroup>
+                                                <col style="width: 50px; text-align: center;">
+                                                <col>
+                                                <col>
+                                                <col style="width: 50px;">
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th width="10%" style="text-align: center;">CODE</th>
+                                                <th width="10%" style="text-align: center;">구 분</th>
+                                                <th width="20%" style="text-align: center;">명 칭</th>
+                                                <th width="10%" style="text-align: center;">사용여부</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -244,35 +288,34 @@
     $(document).ready(function(){
         loadAllItem();
 
-        //$('a[data-toggle="tab"]').on('hidden.bs.tab', function(e){
-        //	alert("이벤트 실행됨");
-        //    $(this).parentsUntil('#itinerary_tab_content').remove();
-        //});
-        
-        // for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            // save the latest tab; use cookies if you like 'em better:
-            localStorage.setItem('lastTab', $(this).attr('href'));
-        	alert("이벤트 실행됨", lastTab);
-        });
-
-        // go to the latest tab, if it exists:
-        var lastTab = localStorage.getItem('lastTab');
-        if (lastTab) {
-            $('[href="' + lastTab + '"]').tab('show');
-        }
     });
     ///////////////////////////////////////////////
-    $("#btnPrint").click(function(){
-        document.body.innerHTML = selectArea.innerHTML;
+    $("#btnPrint1").click(function(){
+        document.body.innerHTML = selectArea1.innerHTML;
 			window.print();
+            window.close();
+    });
+    $("#btnQuery2").click(function(){
+        $("#tblReport2 tbody tr").remove();
+
+        var year = $("#year2").val();
+        var month = $("#month2").val();
+        console.log("test", year,month);
+        loadMonthMembers(year, month);
+        var title = year + " 년 " + month + " 월 래방 회원 명단";
+        $("#lbltitle2").text(title);
+    });
+    $("#btnPrint2").click(function(){
+        document.body.innerHTML = selectArea2.innerHTML;
+			window.print();
+            window.close();
     });
 
     /////////////////////////////////////////////////
     function loadAllItem(){
 
-        $("#tblItems").dataTable().fnDestroy();
-        $("#tblItems tbody tr").remove();
+        //$("#tblItems").dataTable().fnDestroy();
+        //$("#tblItems tbody tr").remove();
 
         var ajaxConfig = {
             method: "GET",
@@ -298,6 +341,39 @@
         }).fail(function(jxhr,statusText,error){
             console.log(error);
         });
+    }
+    ////////////////////////////
+    function loadMonthMembers(year, month){
+    var ajaxConfig = {
+        method: "GET",
+        url:SERVER_URL + "/api/v1/reports" + "/reports2" + "/" + year + "/" + month ,
+        async: true
+    };
+
+    $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
+        items.forEach(function(item){
+            var gubun = '';
+            if (item.gubun == 1 ){
+                gubun = "래방";
+            } else {
+                gubun = "방문";
+            }
+            var html = `<tr>
+                            <td>${item.orDate}</td>
+                            <td>${item.customerId}</td>
+                            <td>${item.name}</td>
+                            <td>${gubun}</td>
+                            <td>${item.total}</td>
+                        </tr>`;
+
+            $("#tblReport2 tbody").append(html);
+
+
+        });
+
+    }).fail(function(jxhr,statusText,error){
+        console.log(error);
+    });
     }
 
 </script>

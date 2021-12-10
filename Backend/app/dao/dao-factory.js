@@ -4,12 +4,14 @@ var customer_dao_impl_1 = require("./custom/impl/customer-dao-impl");
 var Item_dao_impl_1 = require("./custom/impl/Item-dao-impl");
 var orderdetails_dao_impl_1 = require("./custom/impl/orderdetails-dao-impl");
 var order_dao_impl_1 = require("./custom/impl/order-dao-impl");
+var report_dao_impl_1 = require("./custom/impl/report-dao-impl");
 var DAOTypes;
 (function (DAOTypes) {
     DAOTypes[DAOTypes["CUSTOMER"] = 0] = "CUSTOMER";
     DAOTypes[DAOTypes["ITEM"] = 1] = "ITEM";
     DAOTypes[DAOTypes["ORDERS"] = 2] = "ORDERS";
     DAOTypes[DAOTypes["ORDERDETAILS"] = 3] = "ORDERDETAILS";
+    DAOTypes[DAOTypes["REPORTS"] = 4] = "REPORTS";
 })(DAOTypes = exports.DAOTypes || (exports.DAOTypes = {}));
 
 function getDAO(daoType, connection) {
@@ -22,7 +24,9 @@ function getDAO(daoType, connection) {
             return new order_dao_impl_1.OrderDAOImpl(connection);
         case DAOTypes.ORDERDETAILS:
             return new orderdetails_dao_impl_1.OrderDetailsDAOImpl(connection);
-        default:
+        case DAOTypes.REPORTS:
+            return new report_dao_impl_1.ReportDAOImpl(connection);
+            default:
             return null;
     }
 }
