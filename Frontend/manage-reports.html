@@ -119,25 +119,23 @@
 
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#qwe">QWE</a>
+                            <a class="nav-link active" data-toggle="tab" href="#qwe">품목리스트</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#asd">월별 래방자</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#zxc">ZXC</a>
+                            <a class="nav-link" data-toggle="tab" href="#zxc">월별 품목리스트</a>
                         </li>
                     </ul>
                     
                     <div class="tab-content">
                         <div class="tab-pane fade" id="qwe">
                             <div class="box-footer">
-                                <button type="button" id="btnPrint1" class="btn btn-primary">Print</button>
-                                <button type="reset" class="btn btn-danger">Clear</button>
+                                <button type="button" id="btnPrint1" class="btn btn-primary">출력</button>
                             </div>
                             <div id="selectArea1">
-                                <p>Nunc vitae turpis id nibh sodales commodo et non augue. Proin fringilla ex nunc. Integer tincidunt risus ut facilisis tristique.</p>
-
+                                <label id="lbltitle1">품목 리스트</label>
                                 <div class="box">
                                     <div class="box-body">
                                         <table id="tblItems" class="table table-bordered table-hover">
@@ -189,7 +187,7 @@
                                 <button type="button" id="btnPrint2" class="btn btn-primary">출력</button>
                             </div>
                             <div id="selectArea2">
-                                <label id="lbltitle2">월별 래방 환자 리스트</label>
+                                <label id="lbltitle2">월별 래방 환자 명단</label>
                                 <div class="box">
                                     <div class="box-body">
                                         <table id="tblReport2" class="table table-bordered table-hover">
@@ -217,14 +215,36 @@
                         </div>
                         <div class="tab-pane fade" id="zxc">
                             <div class="box-footer">
-                                <button type="button" id="btnPrint" class="btn btn-primary">Print</button>
-                                <button type="reset" class="btn btn-danger">Clear</button>
+                                <select name="Year3" id="year3">
+                                    <option value="2021" selected >2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                </select>
+                                <label for="Year3">년</label>
+                                <select name="Month3" id="month3">
+                                    <option value="01" selected >1</option>
+                                    <option value="02">2</option>
+                                    <option value="03">3</option>
+                                    <option value="04">4</option>
+                                    <option value="05">5</option>
+                                    <option value="06">6</option>
+                                    <option value="07">7</option>
+                                    <option value="08">8</option>
+                                    <option value="09">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <label for="Month3">월</label>
+                                <button type="button" id="btnQuery3" class="btn btn-primary">조회</button>
+                                <button type="button" id="btnPrint3" class="btn btn-primary">출력</button>
                             </div>
                             <div id="selectArea3">
-                                <p>Curabitur dignissim quis nunc vitae laoreet. Etiam ut mattis leo, vel fermentum tellus. Sed sagittis rhoncus venenatis. Quisque commodo consectetur faucibus. Aenean eget ultricies justo.</p>
+                                <label id="lbltitle3">월별 래방 물품 리스트</label>
                                 <div class="box">
                                     <div class="box-body">
-                                        <table id="tblItems" class="table table-bordered table-hover">
+                                        <table id="tblReport3" class="table table-bordered table-hover">
                                             <colgroup>
                                                 <col style="width: 50px; text-align: center;">
                                                 <col>
@@ -233,10 +253,13 @@
                                             </colgroup>
                                             <thead>
                                             <tr>
-                                                <th width="10%" style="text-align: center;">CODE</th>
-                                                <th width="10%" style="text-align: center;">구 분</th>
-                                                <th width="20%" style="text-align: center;">명 칭</th>
-                                                <th width="10%" style="text-align: center;">사용여부</th>
+                                                <th width="10%" style="text-align: center;">방문월일</th>
+                                                <th width="10%" style="text-align: center;">회원번호</th>
+                                                <th width="20%" style="text-align: center;">회원성명</th>
+                                                <th width="10%" style="text-align: center;">품목코드</th>
+                                                <th width="10%" style="text-align: center;">품목명칭</th>
+                                                <th width="10%" style="text-align: center;">품목구분</th>
+                                                <th width="10%" style="text-align: center;">수량</th>
                                             </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -310,22 +333,31 @@
 			window.print();
             window.close();
     });
+    $("#btnQuery3").click(function(){
+        $("#tblReport3 tbody tr").remove();
+
+        var year = $("#year3").val();
+        var month = $("#month3").val();
+        console.log("test", year,month);
+        loadMonthLists(year, month);
+        var title = year + " 년 " + month + " 월 래방 회원 명단";
+        $("#lbltitle3").text(title);
+    });
+    $("#btnPrint3").click(function(){
+        document.body.innerHTML = selectArea3.innerHTML;
+			window.print();
+            window.close();
+    });
 
     /////////////////////////////////////////////////
     function loadAllItem(){
-
-        //$("#tblItems").dataTable().fnDestroy();
-        //$("#tblItems tbody tr").remove();
-
         var ajaxConfig = {
             method: "GET",
             url:SERVER_URL + "/api/v1/items",
             async: true
         };
-
         $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
             items.forEach(function(item){
-
                 var html = `<tr>
                                 <td>${item.code}</td>
                                 <td>${item.gubun}</td>
@@ -334,10 +366,7 @@
                             </tr>`;
 
                 $("#tblItems tbody").append(html);
-
-
             });
-
         }).fail(function(jxhr,statusText,error){
             console.log(error);
         });
@@ -349,7 +378,6 @@
         url:SERVER_URL + "/api/v1/reports" + "/reports2" + "/" + year + "/" + month ,
         async: true
     };
-
     $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
         items.forEach(function(item){
             var gubun = '';
@@ -365,12 +393,38 @@
                             <td>${gubun}</td>
                             <td>${item.total}</td>
                         </tr>`;
-
             $("#tblReport2 tbody").append(html);
-
-
         });
-
+    }).fail(function(jxhr,statusText,error){
+        console.log(error);
+    });
+    }
+    ////////////////////////////
+    function loadMonthLists(year, month){
+    var ajaxConfig = {
+        method: "GET",
+        url:SERVER_URL + "/api/v1/reports" + "/reports3" + "/" + year + "/" + month ,
+        async: true
+    };
+    $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
+        items.forEach(function(item){
+            var gubun = '';
+            if (item.gubun == 1 ){
+                gubun = "구매";
+            } else {
+                gubun = "기증";
+            }
+            var html = `<tr>
+                            <td>${item.orDate}</td>
+                            <td>${item.customerId}</td>
+                            <td>${item.name}</td>
+                            <td>${item.itemCode}</td>
+                            <td>${item.description}</td>
+                            <td>${gubun}</td>
+                            <td>${item.qty}</td>
+                        </tr>`;
+            $("#tblReport3 tbody").append(html);
+        });
     }).fail(function(jxhr,statusText,error){
         console.log(error);
     });

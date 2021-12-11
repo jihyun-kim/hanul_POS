@@ -7,14 +7,25 @@ var ReportDAOImpl = /** @class */ (function () {
     }
     ReportDAOImpl.prototype.monthMembers = function (year, month) {
         var _this = this;
-        //console.log("check-3 ", year, month);
         return new Promise(function (resolve, reject) {
             _this.connection.query("CALL monthMembers('" + year + "', '" + month + "' )", function (err, results) {
                 if (err) {
                     reject(err);
                 }
                 else {
-                    //console.log("check-4", results);
+                    resolve(results);
+                }
+            });
+        });
+    };
+    ReportDAOImpl.prototype.monthLists = function (year, month) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.connection.query("CALL monthLists('" + year + "', '" + month + "' )", function (err, results) {
+                if (err) {
+                    reject(err);
+                }
+                else {
                     resolve(results);
                 }
             });
