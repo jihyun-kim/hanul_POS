@@ -132,6 +132,31 @@
                     <div class="tab-content">
                         <div class="tab-pane fade" id="qwe">
                             <div class="box-footer">
+                                <input    id="item1" type="text" class="inputbox" size="100" />
+
+                                <select name="Year1" id="year1">
+                                    <option value="2021" selected >2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                  </select>
+                                  <label for="Year1">년</label>
+                                  <select name="Month1" id="month1">
+                                    <option value="01" selected >1</option>
+                                    <option value="02">2</option>
+                                    <option value="03">3</option>
+                                    <option value="04">4</option>
+                                    <option value="05">5</option>
+                                    <option value="06">6</option>
+                                    <option value="07">7</option>
+                                    <option value="08">8</option>
+                                    <option value="09">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                  </select>
+                                  <label for="Month1">월</label>
+                                <button type="button" id="btnQuery1" class="btn btn-primary">조회</button>
                                 <button type="button" id="btnPrint1" class="btn btn-primary">출력</button>
                             </div>
                             <div id="selectArea1">
@@ -147,10 +172,9 @@
                                             </colgroup>
                                             <thead>
                                             <tr>
-                                                <th width="10%" style="text-align: center;">CODE</th>
-                                                <th width="10%" style="text-align: center;">구 분</th>
-                                                <th width="20%" style="text-align: center;">명 칭</th>
-                                                <th width="10%" style="text-align: center;">사용여부</th>
+                                                <th width="10%" style="text-align: center;">판매일자</th>
+                                                <th width="10%" style="text-align: center;">회원번호</th>
+                                                <th width="20%" style="text-align: center;">회원성명</th>
                                             </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -313,6 +337,17 @@
 
     });
     ///////////////////////////////////////////////
+    $("#btnQuery1").click(function(){
+        $("#tblReport1 tbody tr").remove();
+
+        var item = $("#item1").val();
+        var year = $("#year1").val();
+        var month = $("#month1").val();
+        console.log("test", year,month);
+        loadMonthItems(year, month);
+        var title = year + " 년 " + month + " 월 래방 회원 명단";
+        $("#lbltitle2").text(title);
+    });
     $("#btnPrint1").click(function(){
         document.body.innerHTML = selectArea1.innerHTML;
 			window.print();
@@ -422,6 +457,29 @@
                             <td>${item.description}</td>
                             <td>${gubun}</td>
                             <td>${item.qty}</td>
+                        </tr>`;
+            $("#tblReport3 tbody").append(html);
+        });
+    }).fail(function(jxhr,statusText,error){
+        console.log(error);
+    });
+    }
+    ////////////////////////////
+    function loadMonthItems(item, year, month){
+    var ajaxConfig = {
+        method: "GET",
+        url:SERVER_URL + "/api/v1/reports" + "/reports1" + "/" + item + "/" + year + "/" + month ,
+        async: true
+    };
+    $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
+        items.forEach(function(item){
+            var html = `<tr>
+                            <td>${item.orDate}</td>
+                            <td>${item.customerId}</td>
+                            <td>${item.name}</td>
+                            <td>${item.itemCode}</td>
+                            <td>${item.description}</td>
+                            <td>${item.total}</td>
                         </tr>`;
             $("#tblReport3 tbody").append(html);
         });
