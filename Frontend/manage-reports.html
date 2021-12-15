@@ -119,20 +119,23 @@
 
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#qwe">품목리스트</a>
+                            <a class="nav-link active" data-toggle="tab" href="#1st">품목리스트</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#asd">월별 래방자</a>
+                            <a class="nav-link" data-toggle="tab" href="#2nd">월별 래방자</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#zxc">월별 품목리스트</a>
+                            <a class="nav-link" data-toggle="tab" href="#3rd">월별 품목리스트</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#4th">거주지 통계</a>
                         </li>
                     </ul>
                     
                     <div class="tab-content">
-                        <div class="tab-pane fade" id="qwe">
+                        <div class="tab-pane fade" id="1st">
                             <div class="box-footer">
-                                <input    id="item1" type="text" class="inputbox" size="100" />
+                                <input    id="item1" type="text" class="inputbox" size=5px />
 
                                 <select name="Year1" id="year1">
                                     <option value="2021" selected >2021</option>
@@ -163,7 +166,7 @@
                                 <label id="lbltitle1">품목 리스트</label>
                                 <div class="box">
                                     <div class="box-body">
-                                        <table id="tblItems" class="table table-bordered table-hover">
+                                        <table id="tblReport1" class="table table-bordered table-hover">
                                             <colgroup>
                                                 <col style="width: 50px; text-align: center;">
                                                 <col>
@@ -175,6 +178,9 @@
                                                 <th width="10%" style="text-align: center;">판매일자</th>
                                                 <th width="10%" style="text-align: center;">회원번호</th>
                                                 <th width="20%" style="text-align: center;">회원성명</th>
+                                                <th width="20%" style="text-align: center;">품목코드</th>
+                                                <th width="20%" style="text-align: center;">품목명</th>
+                                                <th width="20%" style="text-align: center;">수량</th>
                                             </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -183,7 +189,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade"  id="asd">
+                        <div class="tab-pane fade"  id="2nd">
                             <div class="box-footer">
                                 <select name="Year2" id="year2">
                                     <option value="2021" selected >2021</option>
@@ -237,7 +243,7 @@
                             </div>
 
                         </div>
-                        <div class="tab-pane fade" id="zxc">
+                        <div class="tab-pane fade" id="3rd">
                             <div class="box-footer">
                                 <select name="Year3" id="year3">
                                     <option value="2021" selected >2021</option>
@@ -292,6 +298,56 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="4th">
+                            <div class="box-footer">
+                                <select name="Year4" id="year4">
+                                    <option value="2021" selected >2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                </select>
+                                <label for="Year4">년</label>
+                                <select name="Month4" id="month4">
+                                    <option value="01" selected >1</option>
+                                    <option value="02">2</option>
+                                    <option value="03">3</option>
+                                    <option value="04">4</option>
+                                    <option value="05">5</option>
+                                    <option value="06">6</option>
+                                    <option value="07">7</option>
+                                    <option value="08">8</option>
+                                    <option value="09">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <label for="Month4">월</label>
+                                <button type="button" id="btnQuery4" class="btn btn-primary">조회</button>
+                                <button type="button" id="btnPrint4" class="btn btn-primary">출력</button>
+                            </div>
+                            <div id="selectArea4">
+                                <label id="lbltitle4">거주지 통계</label>
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="tblReport4" class="table table-bordered table-hover">
+                                            <colgroup>
+                                                <col style="width: 50px; text-align: center;">
+                                                <col>
+                                                <col>
+                                                <col style="width: 50px;">
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th width="40%" style="text-align: center;">거주지 구분</th>
+                                                <th width="20%" style="text-align: center;">인원</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>                
@@ -333,26 +389,26 @@
 
     ///////////////////////////////////////////////
     $(document).ready(function(){
-        loadAllItem();
-
     });
     ///////////////////////////////////////////////
+    //////////////////////////// 1st
     $("#btnQuery1").click(function(){
         $("#tblReport1 tbody tr").remove();
 
-        var item = $("#item1").val();
+        var itemCode = $("#item1").val();
         var year = $("#year1").val();
         var month = $("#month1").val();
-        console.log("test", year,month);
-        loadMonthItems(year, month);
-        var title = year + " 년 " + month + " 월 래방 회원 명단";
-        $("#lbltitle2").text(title);
+        console.log("test", itemCode, year,month);
+        loadMonthItems(itemCode, year, month);
+        var title = itemCode + " " + year + " 년 " + month + " 월 품목 리스트";
+        $("#lbltitle1").text(title);
     });
     $("#btnPrint1").click(function(){
         document.body.innerHTML = selectArea1.innerHTML;
 			window.print();
             window.close();
     });
+    //////////////////////////// 2nd
     $("#btnQuery2").click(function(){
         $("#tblReport2 tbody tr").remove();
 
@@ -368,6 +424,7 @@
 			window.print();
             window.close();
     });
+    //////////////////////////// 3rd
     $("#btnQuery3").click(function(){
         $("#tblReport3 tbody tr").remove();
 
@@ -383,30 +440,49 @@
 			window.print();
             window.close();
     });
+    //////////////////////////// 4th
+    $("#btnQuery4").click(function(){
+        $("#tblReport4 tbody tr").remove();
 
-    /////////////////////////////////////////////////
-    function loadAllItem(){
-        var ajaxConfig = {
-            method: "GET",
-            url:SERVER_URL + "/api/v1/items",
-            async: true
-        };
-        $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
-            items.forEach(function(item){
-                var html = `<tr>
-                                <td>${item.code}</td>
-                                <td>${item.gubun}</td>
-                                <td>${item.description}</td>
-                                <td>${item.used}</td>
-                            </tr>`;
+        var year = $("#year4").val();
+        var month = $("#month4").val();
+        console.log("test", year,month);
+        loadMonthAddress(year, month);
+        var title = year + " 년 " + month + " 거주지 통계";
+        $("#lbltitle4").text(title);
+    });
+    $("#btnPrint4").click(function(){
+        document.body.innerHTML = selectArea4.innerHTML;
+			window.print();
+            window.close();
+    });
 
-                $("#tblItems tbody").append(html);
-            });
-        }).fail(function(jxhr,statusText,error){
-            console.log(error);
+
+    //////////////////////////// 1st
+    function loadMonthItems(itemCode, year, month){
+    var ajaxConfig = {
+        method: "GET",
+        url:SERVER_URL + "/api/v1/reports" + "/reports1" + "/" + itemCode + "/" + year + "/" + month ,
+        async: true
+    };
+    $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
+        console.log(items);
+        items.forEach(function(item){
+            var html = `<tr>
+                            <td>${item.orDate}</td>
+                            <td>${item.customerId}</td>
+                            <td>${item.name}</td>
+                            <td>${item.itemCode}</td>
+                            <td>${item.description}</td>
+                            <td>${item.total}</td>
+                        </tr>`;
+            $("#tblReport1 tbody").append(html);
         });
+    }).fail(function(jxhr,statusText,error){
+        console.log(error);
+    });
     }
-    ////////////////////////////
+    //////////////////////////// 2nd
     function loadMonthMembers(year, month){
     var ajaxConfig = {
         method: "GET",
@@ -434,7 +510,7 @@
         console.log(error);
     });
     }
-    ////////////////////////////
+    //////////////////////////// 3rd
     function loadMonthLists(year, month){
     var ajaxConfig = {
         method: "GET",
@@ -464,24 +540,48 @@
         console.log(error);
     });
     }
-    ////////////////////////////
-    function loadMonthItems(item, year, month){
+    //////////////////////////// 4th
+    function loadMonthAddress(year, month){
     var ajaxConfig = {
         method: "GET",
-        url:SERVER_URL + "/api/v1/reports" + "/reports1" + "/" + item + "/" + year + "/" + month ,
+        url:SERVER_URL + "/api/v1/reports" + "/reports4" + "/" + year + "/" + month ,
         async: true
     };
     $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
         items.forEach(function(item){
+            var addGubun = '';
+            switch(item.addGubun) {
+                case '1': 
+                    addGubun = "수원시 장안구";
+                    break;
+                case '2': 
+                    addGubun = "수원시 권선구";
+                    break;
+                case '3': 
+                    addGubun = "수원시 팔달구";
+                    break;
+                case '4': 
+                    addGubun = "수원시 영통구";
+                    break;
+                case '5': 
+                    addGubun = "용인시 수지구";
+                    break;
+                case '6': 
+                    addGubun = "용인시 기흥구";
+                    break;
+                case '7': 
+                    addGubun = "용인시 처인구";
+                    break;
+                case '8': 
+                    addGubun = "기타 지역";
+                    break;
+
+            }
             var html = `<tr>
-                            <td>${item.orDate}</td>
-                            <td>${item.customerId}</td>
-                            <td>${item.name}</td>
-                            <td>${item.itemCode}</td>
-                            <td>${item.description}</td>
-                            <td>${item.total}</td>
+                            <td>${addGubun}</td>
+                            <td>${item.cnt}</td>
                         </tr>`;
-            $("#tblReport3 tbody").append(html);
+            $("#tblReport4 tbody").append(html);
         });
     }).fail(function(jxhr,statusText,error){
         console.log(error);

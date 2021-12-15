@@ -5,6 +5,19 @@ var ReportDAOImpl = /** @class */ (function () {
     function ReportDAOImpl(connection) {
         this.connection = connection;
     }
+    ReportDAOImpl.prototype.monthItems = function (itemCode, year, month) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.connection.query("CALL monthItems('" + itemCode + "', '" + year + "', '" + month + "' )", function (err, results) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    };
     ReportDAOImpl.prototype.monthMembers = function (year, month) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -22,6 +35,19 @@ var ReportDAOImpl = /** @class */ (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.connection.query("CALL monthLists('" + year + "', '" + month + "' )", function (err, results) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    };
+    ReportDAOImpl.prototype.monthAddress = function (year, month) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.connection.query("CALL monthAddress('" + year + "', '" + month + "' )", function (err, results) {
                 if (err) {
                     reject(err);
                 }
