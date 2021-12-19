@@ -75,7 +75,7 @@ var ItemBoImpl = /** @class */ (function () {
                     var promise = itemDAO.save(item);
                     promise.then(function (result) {
                         if (result == true) {
-                            console.log("sfadfadsfadsfasdfa");
+                            //console.log("sfadfadsfadsfasdfa");
                         }
                         console.log("dasfad");
                         resolve(result);

@@ -189,6 +189,7 @@
                             <div class="box-footer">
                                 <button type="button" id="btnSave" class="btn btn-primary">Save</button>
                                 <button type="reset" class="btn btn-danger">Clear</button>
+                                <button type="button" id="btnBarCode" class="btn btn-primary">BarCode</button>
                             </div>
                         </form>
                     </div>
@@ -263,6 +264,9 @@
 <script src="js/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="js/adminlte.min.js"></script>
+
+<script type="text/javascript" src="./js/BrowserPrint-3.0.216.min.js"></script>
+
 <script>
     $(function () {
         $('#tblCustomers').DataTable({
@@ -280,6 +284,8 @@
     });
 </script>
 <script>
+    var selected_device;
+    var devices = [];
 
     var SERVER_URL = "http://localhost:3000";
     //var SERVER_URL = "http://10.70.62.102:3000";
@@ -384,7 +390,12 @@
        $("#tblCustomers tbody tr").removeClass("selected-row");
         $("#txtCustomerId").attr("disabled",false);
     });
-
+    /////////////////////////////////////////////////
+    $("#btnBarCode").click(function(){
+        var id = $("#txtCustomerId").val();
+        var name = $("#txtCustomerName").val();
+        barCodePrint(id, name);
+    });
 
     ///////////////////////////////////////////////////
     function loadAllCustomers(){
@@ -484,7 +495,45 @@
 
 
     }
+    function setup() {
+        //Get the default device from the application as a first step. Discovery takes longer to complete.
+        BrowserPrint.getDefaultDevice("printer", function(device)
+            {
+                //console.log(device);
+                //Add device to list of devices and to html select element
+                selected_device = device;
+                devices.push(device);
+                
+                //Discover any other devices available to the application
+                BrowserPrint.getLocalDevices(function(device_list){
+                    var device = device_list[0];
+                    devices.push(device);
+                    //console.log(devices);
+                }, function(){alert("Error getting local devices")},"printer");
+                
+            }, function(error){
+                alert(error);
+            })
+    }
 
+    function writeToSelectedPrinter(dataToWrite)  {
+        selected_device = devices[1];
+        //console.log(selected_device);
+        selected_device.send(dataToWrite, undefined, errorCallback);
+    }
+
+    var errorCallback = function(errorMessage){
+        alert("Error: " + errorMessage);	
+    }
+    
+    function barCodePrint(id, name) {
+        var data = "^XA^SEE:UHANGUL.DAT^FS^CW1,E:KFONT3.FNT^CI28^FO80,80^A1,70,70^FD" + name + "^FS^FO80,150^A1,50,50^FD" + id + "^FS^FO350,70^BY2^BCN,100,Y,N,N^FD" + id + "^FS^XZ"
+        setup();
+        writeToSelectedPrinter(data);
+
+
+    }
+    
 </script>
 </body>
 </html>
