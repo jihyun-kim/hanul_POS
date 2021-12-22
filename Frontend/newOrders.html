@@ -89,6 +89,13 @@
                         <i class="fa fa-shopping-cart"></i> <span>판매관리</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="manage-reports.html">
+                        <i class="fa fa-print"></i> <span>보고서관리</span>
+                    </a>
+                </li>
+
             </ul>
         </section>
     </aside>
@@ -167,6 +174,23 @@
                                 <div class="box-body">
                                     <div class="col-md-8">
                                         <div> 구매 물품 수량: <label id="lblFindCheckItem"></label></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box box-default">
+                                <div class="box-body">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            Item Code:
+                                            <select id="cmbItemCode2" class="form-control" style="width: 200px;">
+                                                <option selected disabled hidden value="">Select Item Code</option>
+                                            </select>
+                                        </div>
+                                
                                     </div>
                                 </div>
                             </div>
@@ -375,6 +399,19 @@
         }).fail(function(jxhr,statusText,error){
         });
 
+        //////////////
+        var ajaxConfig = {
+            method: "GET",
+            url:SERVER_URL + "/api/v1/items",
+            async: true
+        };
+
+        $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
+            items.forEach(function(item){
+                $("#cmbItemCode2").append('<option value="' + item.code + '">' + item.code + " | " + item.description + '</option>');
+            });
+        });
+
         reset();
     });
     /////////////////////////////////////////////////////////////////
@@ -492,6 +529,12 @@
         $("#cmbItemCode").css("background-color", "yellow");
 
     });
+    ////////////////////////
+    $("#cmbItemCode2").change(function () {
+            var itemCode = $(this).val();
+            console.log(itemCode);
+            $("#cmbItemCode").val(itemCode).trigger("change");
+        });
     ////////////////////////
     $("#cmbItemCode").change(function(){
         var ajaxConfig = {
