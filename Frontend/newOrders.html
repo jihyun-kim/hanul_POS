@@ -89,6 +89,12 @@
                         <i class="fa fa-shopping-cart"></i> <span>판매관리</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="manage-reports.html">
+                        <i class="fa fa-print"></i> <span>보고서관리</span>
+                    </a>
+                </li>
             </ul>
         </section>
     </aside>
@@ -141,7 +147,7 @@
                                                 전화번호: <label id="lblCustomerTelNo"></label>
                                             </div>                     
                                         </div>
-                                        <div class="box-body">
+                                        <div style="width:100%; height:450px; overflow:auto" class="box-body">
                                             <table id="tblOrderItems" class="table table-bordered table-hover">
                                                 <thead>
                                                     <tr>
@@ -214,7 +220,7 @@
                             <h3 class="box-title">장바구니 품목</h3>
                         </div>
                         <!-- /.box-header -->
-                        <div class="box-body">
+                        <div style="width:100%; height:450px; overflow:auto" class="box-body">
                             <table id="tblOrderDetails" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -320,8 +326,8 @@
 
 
 <script>
-    var SERVER_URL = "http://localhost:3000";
-    //var SERVER_URL = "http://10.70.62.102:3000";
+    //var SERVER_URL = "http://localhost:3000";
+    var SERVER_URL = "http://172.30.1.51:3000";
     /////////////////////////////////////////////////////////////////
     //////  start                                                 ///
     /////////////////////////////////////////////////////////////////
@@ -571,20 +577,23 @@
 
             //qtyOnHand -= qty;
             $("#cmbItemCode").val("").trigger("change");
-
+            $("#lblItemGubun").text("");
+            $("#lblItemDescription").text("");
+            $("#lblItemUsed").text("");
+            $('#cmbItemCode').focus();
             return;
         }
 
-        var html = `<tr>
+        var html = `
                         <td class="text-center">${itemCode}</td>
                         <td class="text-center">${itemDescription}</td>
                         <td class="text-center">${gubun}</td>
                         <td class="text-center">${qty}</td>
                         <td><button type="button" class="btn btn-success delete">Delete</button></td>
-                    </tr>`;
+                    `;
 
         qtyOnHand -= qty;
-        $("#tblOrderDetails tbody").append(html);
+        $("#tblOrderDetails tbody").prepend('<tr />').children('tr:first').append(html);
 
         calculateTotal();
         $("#cmbItemCode").val("").trigger("change");
@@ -611,7 +620,7 @@
         $("#tblOrderDetails tbody tr button.delete").off("click");
         $("#tblOrderDetails tbody tr button.delete").click(function (eventData) {
             eventData.stopPropagation();
-            if (confirm("Are you sure that you want to delete this item?")) {
+            if (confirm("해당 품목을 장바구니에서 삭제하시겠습니까?")) {
                 var qty = parseInt($(this).parents("tr").find("td:nth-child(4)").text());
                 //var itemCode = $(this).parents("tr").find("td:first-child").text();
                 //var item = findItem(itemCode);
@@ -625,12 +634,17 @@
                 $(this).fadeOut(500, function () {
                     $(this).parents("tr").remove();
                     calculateTotal();
+                    $('#cmbItemCode').focus();
                 });
             }
         });
 
         // cursor focus
         //$('input[name=itemcode]').focus();
+        $("#lblItemGubun").text("");
+        $("#lblItemDescription").text("");
+        $("#lblItemUsed").text("");
+
         $('#cmbItemCode').focus();
         $("#cmbItemCode").css("background-color", "yellow");
 
@@ -709,7 +723,7 @@
 
         $.ajax(ajaxConfig).done(function(response,statusText,jxhr){
             //console.log("place>>", response);
-            alert("Added Successfully");
+            alert("판매저장 완료!");
         }).fail(function(jxhr,statusText,error){
             alert("Unable to save the OrderDetails, try again");
             console.log(error);

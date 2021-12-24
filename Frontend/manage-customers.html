@@ -93,6 +93,13 @@
                         <i class="fa fa-shopping-cart"></i> <span>판매관리</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="manage-reports.html">
+                        <i class="fa fa-print"></i> <span>보고서관리</span>
+                    </a>
+                </li>
+
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -287,8 +294,8 @@
     var selected_device;
     var devices = [];
 
-    var SERVER_URL = "http://localhost:3000";
-    //var SERVER_URL = "http://10.70.62.102:3000";
+    //var SERVER_URL = "http://localhost:3000";
+    var SERVER_URL = "http://172.30.1.51:3000";
 
     ////////////////////////////////////////////////
     $(document).ready(function(){
@@ -492,8 +499,6 @@
         }).fail(function(jxhr,statusText,error){
             console.log(error);
         });
-
-
     }
     function setup() {
         //Get the default device from the application as a first step. Discovery takes longer to complete.
