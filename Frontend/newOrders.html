@@ -141,10 +141,10 @@
                                                 <input name="cutomerid" type="text" class="form-control" id="cmbCustomerID"
                                                 placeholder="회원번호를 등록하여 주세요">    
                                             </div>
-                                            <div>
-                                                    성명: <label id="lblCustomerName"></label>                           
-                                                생년월일: <label id="lblCustomerBirthDate"></label>
-                                                전화번호: <label id="lblCustomerTelNo"></label>
+                                            <div> 
+                                                    성명: &ensp;<label id="lblCustomerName"></label>                           
+                                                &emsp;생년월일: &ensp;<label id="lblCustomerBirthDate"></label>
+                                                &emsp;전화번호: &ensp;<label id="lblCustomerTelNo"></label>
                                             </div>                     
                                         </div>
                                         <div style="width:100%; height:450px; overflow:auto" class="box-body">
@@ -193,9 +193,9 @@
                                             </div>
                                             <div id="item-details">
                                                 <div>
-                                                    구분: <label id="lblItemGubun"></label>
-                                                    명칭: <label id="lblItemDescription"></label>
-                                                    사용여부: <label id="lblItemUsed"></label>
+                                                    구분: &ensp;<label id="lblItemGubun"></label>
+                                                    &emsp;명칭: &ensp;<label id="lblItemDescription"></label>
+                                                    &emsp;사용여부: &ensp;<label id="lblItemUsed"></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -236,7 +236,7 @@
                             </table>
                         </div>
                     </div>
-                    <span id="spnTotal">Total: <label id="lblTotal">0.0</label></span>
+                    <span id="spnTotal">Total: <label id="lblTotal">0.0</label>&emsp;</span>
                     <button id="btnPlaceOrder" class="btn btn-primary"> <i class="fas fa-cart-arrow-down"></i>
                         판매저장</button>
                 </div>
@@ -457,6 +457,10 @@
             $("#lblCustomerBirthDate").text(response.birthDate);
             $("#lblCustomerTelNo").text(response.telNo);
            }).fail(function(jxhr, statusText, error){
+               alert("해당 회원을 찿을수 없습니다. 확인 바랍니다!");
+               $('#cmbCustomerID').val("");
+               $('#cmbCustomerID').focus();
+               
         });
 
         // 해당월 사용수량 확인용  (function)
@@ -500,6 +504,11 @@
     });
     ////////////////////////
     $("#cmbItemCode").change(function(){
+        if ($(this).val() == "") {
+            //console.log("2",$(this).val());
+            return;
+        }
+
         var ajaxConfig = {
             method: "GET",
             url: SERVER_URL + "/api/v1/items/" + $(this).val(),
@@ -510,6 +519,10 @@
             $("#lblItemDescription").text(response.description);
             $("#lblItemUsed").text(response.used);
         }).fail(function(jxhr, statusText, error){
+            console.log(statusText);
+            alert("해당 제품코드를 찾을수 없습니다. 확인 바랍니다!");
+            $('#cmbItemCode').val("");
+            $('#cmbItemCode').focus();
         });
 
         $('#btnAddCart').focus();
