@@ -299,6 +299,7 @@
 
     ////////////////////////////////////////////////
     $(document).ready(function(){
+        setup();
         //$('#tblCustomers').DataTable( {"order": [[ 0, "desc" ]]} );
         loadAllCustomers();
     });
@@ -513,7 +514,7 @@
                 BrowserPrint.getLocalDevices(function(device_list){
                     var device = device_list[0];
                     devices.push(device);
-                    //console.log(devices);
+                    console.log(devices);
                 }, function(){alert("Error getting local devices")},"printer");
                 
             }, function(error){
@@ -533,7 +534,7 @@
     
     function barCodePrint(id, name) {
         var data = "^XA^SEE:UHANGUL.DAT^FS^CW1,E:KFONT3.FNT^CI28^FO80,80^A1,70,70^FD" + name + "^FS^FO80,150^A1,50,50^FD" + id + "^FS^FO350,70^BY2^BCN,100,Y,N,N^FD" + id + "^FS^XZ"
-        setup();
+        //setup();
         writeToSelectedPrinter(data);
 
 
