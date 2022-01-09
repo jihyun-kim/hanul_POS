@@ -46,6 +46,15 @@
         .selected-row{
             background-color: rgba(0, 48, 70, 0.16) !important;
         }
+        .mr-0 {
+            margin-right: 0;
+        }
+        .ml-auto {
+            margin-left:auto;
+        }
+        .d-block {
+            display:block;
+        }
     </style>
 
 </head>
@@ -137,7 +146,8 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>회원번호</label>
+                                                <label>회원번호&ensp;&ensp;&ensp;&ensp;&ensp;</label>
+                                                <button id="btnSearch" class="d-block mr-0 ml-auto"><i class="fas fa-search"></i> 검색</button>
                                                 <input name="cutomerid" type="text" class="form-control" id="cmbCustomerID"
                                                 placeholder="회원번호를 등록하여 주세요">    
                                             </div>
@@ -330,11 +340,12 @@
 
 
 <script>
+    /////////////////////////////////////////////////////////////////
+    //////  I. start & Declare                                    ///
+    /////////////////////////////////////////////////////////////////
     //var SERVER_URL = "http://localhost:3000";
     var SERVER_URL = "http://172.30.1.10:3000";
-    /////////////////////////////////////////////////////////////////
-    //////  start                                                 ///
-    /////////////////////////////////////////////////////////////////
+
     function setToday() {
             var today = new Date();
             // Just need to parse the format that you need
@@ -343,11 +354,10 @@
     }
     setToday();
     /////////////////////////////////////////////////////////////////
-    ///// ready                                                   ///
+    ///// II. ready                                               ///
     /////////////////////////////////////////////////////////////////
     $(document).ready(function(){
         ///// findTodayOrders
-
         $("#tblOrders").dataTable().fnDestroy();
         $("#tblOrders tbody tr").remove();
 
@@ -388,7 +398,7 @@
         reset();
     });
     /////////////////////////////////////////////////////////////////
-    ///// action & function                                       ///
+    ///// III. action                                             ///
     /////////////////////////////////////////////////////////////////
     $("#btnNewOrder").click(function () {
         var ajaxConfig = {
@@ -416,6 +426,7 @@
 
         reset();
         
+        $("#btnSearch").attr("disabled", false);
         $("#cmbCustomerID").attr("disabled", false);
         $("#cmbItemCode").attr("disabled", false);
         $("#btnAddCart").attr("disabled", false);
@@ -445,7 +456,14 @@
 
     });
     ////////////////////////
+    $("#btnSearch").click(function () {
+        var OrderId = $("#lblOrderId").text();
+        console.log(OrderId);
+        if (!isNull(OrderId)) openNewWindow('popup.html');
+    });
+    ////////////////////////
     $("#cmbCustomerID").change(function(){
+        $("#tblOrderItems tbody td").remove();
         if ($(this).val() == "") {
             //console.log("2",$(this).val());
             return;
@@ -814,8 +832,21 @@
         //});
 
     });
-    ////////////////////////
-    /// test function
+    /////////////////////////////////////////////////////////////////
+    ///// IV. function                                            ///
+    /////////////////////////////////////////////////////////////////
+    function openNewWindow(url) {
+        var name = '_blank';
+        var specs = 'menubar=no,status=no,toolbar=no,innerWidth=800,innerHeight=400,chrome=1,centerscreen=1';
+        var newWindow = window.open(url, name, specs);
+        newWindow.focus();
+    }
+      
+    function getReturnValue(returnValue) {
+        console.log(returnValue);
+        $("#cmbCustomerID").val(returnValue).trigger("change"); 
+    }
+
     function findCodeDescription(code) {
         var codeDescription = '';
         var ajaxConfig = {
@@ -842,6 +873,7 @@
         });
         return flag;
     }
+
     function calculateTotal() {
         var total = 0.0;
         $("#tblOrderDetails tbody tr").each(function () {
@@ -849,6 +881,7 @@
         });
         $("#lblTotal").text(total);
     }
+
     function reset() {
         $("#lblOrderId").text("");
         setToday();
@@ -859,9 +892,14 @@
         $("#txtQty").val("1");
         //$("#txtQty").attr("disabled", true);
         $("#btnAddCart").attr("disabled", true);
+        $("#btnSearch").attr("disabled", true);
         $("#tblOrderDetails tbody tr").remove();
         $("#lblTotal").text("0");
         $("#btnPlaceOrder").attr("disabled", true);
+    }
+
+    function isNull(obj) {
+        return (typeof obj != "undefined" && obj != null && obj != "") ? false : true;
     }
 </script>
 </body>

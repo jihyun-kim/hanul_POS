@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script data-require="jquery" data-semver="2.2.0" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+
+    <title>Document</title>
+</head>
+<body>
+    <h1>회원명 검색</h1>
+    <div class="box">
+        <div class="box-body">
+            <table id="tblCustomers" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th width="10%" style="text-align: center;">회원번호</th>
+                    <th width="10%" style="text-align: center;">성명</th>
+                    <th width="5%" style="text-align: center;">생년월일</th>
+                    <th width="26%" style="text-align: center;">주소</th>
+                    <th width="15%" style="text-align: center;">전화번호</th>
+                    </th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--       -->
+    <!-- jQuery 3 -->
+    <script src="js/jquery.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/dataTables.bootstrap.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#tblCustomers').DataTable({
+                'paging'      : true,
+                'lengthChange': false,
+                'searching'   : true,
+                'ordering'    : true,
+                'info'        : true,
+                'autoWidth'   : true,
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search Customers..."
+                }
+            });
+        });
+    </script>
+    <script>
+    /////////////////////////////////////////////////////////////////
+    //////  I.start                                               ///
+    /////////////////////////////////////////////////////////////////
+
+    //var SERVER_URL = "http://localhost:3000";
+    var SERVER_URL = "http://172.30.1.10:3000";
+
+    /////////////////////////////////////////////////////////////////
+    ///// II. ready                                                ///
+    /////////////////////////////////////////////////////////////////
+    $(document).ready(function(){
+        loadAllCustomers();
+    });
+    /////////////////////////////////////////////////////////////////
+    ///// III. action & function                                  ///
+    /////////////////////////////////////////////////////////////////
+    function loadAllCustomers(){
+        $("#tblCustomers").dataTable().fnDestroy();
+        $("#tblCustomers tbody tr").remove();
+
+        var ajaxConfig = {
+            method: "GET",
+            url:SERVER_URL + "/api/v1/customers",
+            async: true
+        };
+
+        $.ajax(ajaxConfig).done(function(customers,statusText,jxhr){
+            //console.log(customers);
+            customers.forEach(function(customer){
+                //console.log("-----",customer.id);
+                var html = `<tr>
+                                <td>${customer.id}</td>
+                                <td>${customer.name}</td>
+                                <td>${customer.birthDate}</td>
+                                <td>${customer.address}</td>
+                                <td>${customer.telNo}</td>
+                            </tr>`;
+
+                $("#tblCustomers tbody").append(html);
+
+                $("#tblCustomers tbody tr").off("click");
+                $("#tblCustomers tbody tr").click(function(){
+                    //console.log("--click---");
+                    var id = $(this).find("td:first-child").text();
+                    console.log(id);
+                    window.opener.getReturnValue(id);
+                    window.close();
+
+                });
+
+            });
+
+            $('#tblCustomers').DataTable({
+                'paging'      : true,
+                'lengthChange': false,
+                'searching'   : true,
+                'ordering'    : true,
+                'info'        : true,
+                'autoWidth'   : true,
+                'pageLength'  : 10,
+                "order": [[ 0, "desc" ]],
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "회원명 검색..."
+                },
+            });
+
+        }).fail(function(jxhr,statusText,error){
+            console.log(error);
+        });
+    }
+    </script>
+</body>
+</html>
+
