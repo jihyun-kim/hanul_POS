@@ -18,6 +18,19 @@ var ReportDAOImpl = /** @class */ (function () {
             });
         });
     };
+    ReportDAOImpl.prototype.OrderItems2 = function (customerId, orDate) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.connection.query("CALL orderItems2('" + customerId + "', '" + orDate + "' )", function (err, results) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(results);
+                }
+            });
+        });
+    };
     ReportDAOImpl.prototype.monthMembers = function (year, month) {
         var _this = this;
         return new Promise(function (resolve, reject) {

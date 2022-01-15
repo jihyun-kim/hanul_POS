@@ -38,6 +38,22 @@ var reportDispatcher = express.Router();
         res.status(500).send(error);
         });
     })
+    reportDispatcher.route("/reports22/:customerId/:orDate")
+    .get(function (req, res) {
+        //console.log("check--", req.params.customerId, req.params.orDate );
+        var promise = new report_bo_impl_1.ReportBoImpl().findOrderItems2(req.params.customerId, req.params.orDate);
+        promise.then(function (reports) {
+            if (reports.length > 0) {
+                //res.status(200).send(reports[0]);
+                res.status(200).json(reports[0]);
+            }
+            else {
+                res.sendStatus(404);
+            }
+    }).catch(function (error) {
+        res.status(500).send(error);
+        });
+    })
     reportDispatcher.route("/reports3/:year/:month")
     .get(function (req, res) {
         //console.log("check--", req.params.year, req.params.month );
