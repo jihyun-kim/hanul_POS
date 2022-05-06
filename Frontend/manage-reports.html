@@ -136,6 +136,9 @@
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#4th">거주지 통계</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#5th">년도별 회원명부</a>
+                        </li>
                     </ul>
                     
                     <div class="tab-content">
@@ -390,6 +393,45 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="5th">
+                            <div class="box-footer">
+                                <input    id="year5" type="text" class="inputbox" size=5px />
+
+                                <label for="Month5">년</label>
+                                <button type="button" id="btnQuery5" class="btn btn-primary">조회</button>
+                                <button type="button" id="btnPrint5" class="btn btn-primary">출력</button>
+                                <button type="button" id="btnSave5" class="btn btn-primary">엑셀저장</button>
+                            </div>
+                            <div id="selectArea5">
+                                <label id="lbltitle5">회원명부</label>
+                                <div class="box">
+                                    <div class="box-body">
+                                        <table id="tblReport5" class="table table-bordered table-hover">
+                                            <colgroup>
+                                                <col style="width: 50px; text-align: center;">
+                                                <col>
+                                                <col>
+                                                <col style="width: 50px;">
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th width="5%" style="text-align: center;">회원번호</th>
+                                                <th width="5%" style="text-align: center;">성명</th>
+                                                <th width="5%" style="text-align: center;">세례명</th>
+                                                <th width="5%" style="text-align: center;">성별</th>
+                                                <th width="5%" style="text-align: center;">생년월일</th>
+                                                <th width="20%" style="text-align: center;">주소</th>
+                                                <th width="5%" style="text-align: center;">구분</th>
+                                                <th width="10%" style="text-align: center;">전화번호</th>
+                                                <th width="10%" style="text-align: center;">비고</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>                
@@ -514,6 +556,24 @@
     });
     $("#btnSave4").click(function(){
 		$('#tblReport4').tableExport({type:'excel', fileName:'거주지통계'});
+    });
+    //////////////////////////// 5th
+    $("#btnQuery5").click(function(){
+        $("#tblReport5 tbody tr").remove();
+
+        var year = $("#year5").val();
+        console.log("test", year);
+        loadYearCusteomerList(year);
+        var title = year + " 년 " + " 회원명부";
+        $("#lbltitle5").text(title);
+    });
+    $("#btnPrint5").click(function(){
+        document.body.innerHTML = selectArea5.innerHTML;
+			window.print();
+            window.close();
+    });
+    $("#btnSave5").click(function(){
+		$('#tblReport5').tableExport({type:'excel', fileName:'회원명부'});
     });
 
     //////////////////////////// 1st
@@ -677,6 +737,33 @@
                             <td>${item.cnt}</td>
                         </tr>`;
             $("#tblReport4 tbody").append(html);
+        });
+    }).fail(function(jxhr,statusText,error){
+        console.log(error);
+    });
+    }
+    //////////////////////////// 5th
+    function loadYearCusteomerList(year){
+    var ajaxConfig = {
+        method: "GET",
+        url:SERVER_URL + "/api/v1/reports" + "/reports5" + "/" + year  ,
+        async: true
+    };
+    $.ajax(ajaxConfig).done(function(items,statusText,jxhr){
+        //console.log(items);
+        items.forEach(function(item){
+            var html = `<tr>
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.chName}</td>
+                            <td>${item.gender}</td>
+                            <td>${item.birthDate}</td>
+                            <td>${item.address}</td>
+                            <td>${item.addGubun}</td>
+                            <td>${item.telNo}</td>
+                            <td>${item.etc}</td>
+                        </tr>`;
+            $("#tblReport5 tbody").append(html);
         });
     }).fail(function(jxhr,statusText,error){
         console.log(error);

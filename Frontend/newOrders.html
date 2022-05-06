@@ -565,6 +565,7 @@
         var qtyCheckItem = parseInt($("#lblFindCheckItem").text());
         var gubun = parseInt($("#lblItemGubun").text());
 
+        // input error check
         if (gubun == 1) {
             if (qtyCheckItem > 4) {
                 alert("구매 물품 초과!!!");
@@ -574,6 +575,11 @@
 
             qtyCheckItem += 1;
             $("#lblFindCheckItem").text(qtyCheckItem).trigger("change");
+        }
+        if (qty > 99 || qty < 1) {
+            alert("판매수량을 확인하여 주시십요!!!");
+            $("#cmbItemCode").addClass('invalid-qty');
+            return;
         }
         
         $("#cmbItemCode").removeClass('invalid-qty');
