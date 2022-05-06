@@ -86,5 +86,21 @@ var reportDispatcher = express.Router();
         res.status(500).send(error);
         });
     })
+    reportDispatcher.route("/reports5/:year")
+    .get(function (req, res) {
+        //console.log("check--", req.params.year);
+        var promise = new report_bo_impl_1.ReportBoImpl().findYearCustomer(req.params.year);
+        promise.then(function (reports) {
+            if (reports.length > 0) {
+                res.status(200).send(reports);
+                res.status(200).json(reports);
+            }
+            else {
+                res.sendStatus(404);
+            }
+    }).catch(function (error) {
+        res.status(500).send(error);
+        });
+    })
 
 exports.default = reportDispatcher;

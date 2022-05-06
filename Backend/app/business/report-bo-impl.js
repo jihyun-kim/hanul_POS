@@ -111,6 +111,27 @@ var ReportBoImpl = /** @class */ (function () {
             });
         });
     };
+    ReportBoImpl.prototype.findYearCustomer = function (year) {
+        return new Promise(function (resolve, reject) {
+            db_pool_1.pool.getConnection(function (err, connection) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    //console.log("check-2 ", year);
+                    var reportDAO = dao_factory_1.getDAO(dao_factory_1.DAOTypes.REPORTS, connection);
+                    var promise = reportDAO.yearCustomer(year);
+                    promise.then(function (report) {
+                        resolve(report);
+                        db_pool_1.pool.releaseConnection(connection);
+                    }).catch(function (error) {
+                        reject(error);
+                        db_pool_1.pool.releaseConnection(connection);
+                    });
+                }
+            });
+        });
+    };
 
     return ReportBoImpl;
 }());

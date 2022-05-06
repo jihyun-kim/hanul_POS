@@ -70,6 +70,20 @@ var ReportDAOImpl = /** @class */ (function () {
             });
         });
     };
+    ReportDAOImpl.prototype.yearCustomer = function (year) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.connection.query("SELECT * FROM Customer WHERE id LIKE '" + year + "%" + "' ORDER BY id", function (err, results) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    //console.log("--results-- ", results)
+                    resolve(results);
+                }
+            });
+        });
+    };
 
 
     return ReportDAOImpl;
